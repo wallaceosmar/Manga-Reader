@@ -27,7 +27,7 @@
 /**
  * Description of Url
  *
- * @author Wallace Osmar https://github.com/wallaceosmar
+ * @author Wallace Osmar <wallace.osmar@r7.com>
  */
 class Url {
     
@@ -114,15 +114,15 @@ class Url {
         } else {
             // 
             $script_name = dirname( $_SERVER['SCRIPT_NAME'] );
+            $request_uri = parse_url($_SERVER['REQUEST_URI'])['path'];
             if ( strpos($_SERVER['REQUEST_URI'], $script_name) !== false ) {
-                $uri = str_replace($script_name, '', $_SERVER['REQUEST_URI']);
+                $uri = str_replace($script_name, '', $request_uri);
             } elseif ( strpos($_SERVER['REQUEST_URI'], strtolower( $script_name )) !== false ) {
-                $uri = str_replace( strtolower( $script_name ) , '', $_SERVER['REQUEST_URI']);
+                $uri = str_replace( strtolower( $script_name ) , '', $request_uri);
             } else {
-                $uri = $_SERVER['REQUEST_URI'];
+                $uri = $request_uri;
             }
         }
-        
         return $uri;
     }
     

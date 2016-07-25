@@ -27,24 +27,28 @@
 /**
  * Description of Routing
  *
- * @author Wallace Osmar https://github.com/wallaceosmar
+ * @author Wallace Osmar <wallace.osmar@r7.com>
  */
 class Routing {
     
     /**
-     *
+     * Variavel onde é armazenado as regras de mapeamento de url.
+     * 
      * @var array 
      */
     protected static $routing = array();
     
     /**
-     *
+     * Variavel onde é armazenado as regras de mapeamento de url para execução
+     * de funçoes.
+     * 
+     * 
      * @var array 
      */
     protected static $mapping = array();
     
     /**
-     *
+     * 
      * @var array 
      */
     protected static $_router_encouter = array(
@@ -54,7 +58,8 @@ class Routing {
     );
     
     /**
-     *
+     * Entrada de encurtadores aceitos para o mapeamento e reconhecimento.
+     * 
      * @var array 
      */
     protected static $params = array(
@@ -70,7 +75,13 @@ class Routing {
     );
     
     /**
+     * Adiciona um mapeamento para a url e o methodo de acesso ao controller e ao methodo.
      * 
+     * <code>
+     *  Routing::add('get', '/');
+     *  Routing::add('get', '/', array('action' => 'index'[, 'controller' => 'index', 'plataform' => '')] );
+     *  Routing::add(array('get','post'), '/', array('action' => 'index'[, 'controller' => 'index', 'plataform' => '')] );
+     * </code>
      * 
      * @param string|array $methods
      * @param string $url
@@ -78,7 +89,7 @@ class Routing {
      */
     public static function add( $methods, $url, $cond = array() ) {
         foreach ( (array) $methods as $method ) {
-            self::$routing[ $method ][ $url ] = array_merge(
+            self::$routing[ strtoupper( $method ) ][ $url ] = array_merge(
                 array(
                     'plataform' => NULL,
                     'controller' => NULL,
@@ -89,22 +100,44 @@ class Routing {
         }
     }
     
+    /**
+     * 
+     * 
+     * @param string $url
+     * @param array $cond
+     */
     public static function get( $url, $cond = array() ) {
         self::add( 'GET', $url, $cond);
     }
     
-    public static function post ( ) {
+    /**
+     * 
+     * @param string $url
+     * @param array $cond
+     */
+    public static function post ( $url, $cond ) {
         self::add('POST', $url, $cond);
     }
     
     /**
+     * Mapeamento de url para execuxão de uma função.
+     * 
+     * @param string $url
+     * @param function $function
+     */
+    public static function map( $url, $function ) {
+        self::$mapping[ $url ] = $function;
+    } 
+    
+    /**
+     * Função para verificar se o a uri passada corresponde a uma das uri mapeadas.
      * 
      * @param type $uri
      * @return boolean
      */
     public static function find ( $uri ) {
         if ( ! empty( $uri ) && isset ( self::$routing[ $_SERVER['REQUEST_METHOD'] ] ) ) {
-            // Mapeia a a uri e verifica se
+            // Mapeia a a uri e verifica se existe uma função a ser executada.
             foreach ( self::$mapping as $urlMapping => $mappingFunction ) {
                 $urlMapping = preg_replace_callback(
                     "/\<(?<key>[0-9a-z_]+)\>/",
@@ -117,7 +150,7 @@ class Routing {
                 }
                 continue;
             }
-            // Inicia o mapeamento dos controllers e dos metodos
+            // Inicia o mapeamento dos controllers, metodos e parametros.
             foreach ( self::$routing[ $_SERVER['REQUEST_METHOD'] ] as $url => $value ) {
                 $url = preg_replace_callback(
                     "/\<(?<key>[0-9a-z_]+)\>/",
@@ -133,7 +166,13 @@ class Routing {
         return FALSE;
     }
     
-    public static function dispath( $uri ) {
+    /**
+     * 
+     * 
+     * @param type $uri
+     * @throws Exception
+     */
+    public static function dispath( $uri = '/' ) {
         // Procura se a uri passada foi mapeada.
         if ( '' == $uri ) {
             throw new Exception('O Parametro não pode ser vazio');
@@ -167,6 +206,12 @@ class Routing {
         define( 'PLATAFORM', $plataform );
         define( 'CURR_CONTROLLER_PATH', APP_CONTROLLER_PATH . ( is_null ( $plataform ) ? "" : "{$plataform}" . DS ) );
         define( 'CURR_VIEW_PATH', APP_VIEWS_PATH . ( is_null ( $plataform ) ? "" : "{$plataform}" . DS ) );
+        
+        if ( file_exists( CURR_CONTROLLER_PATH . "class.{$controllerName}Controller.php" ) ) {
+            require_once ( CURR_CONTROLLER_PATH . "class.{$controllerName}Controller.php" );
+        } else {
+            $controllerName = '';
+        }
         
         $controllerName = "{$controllerName}Controller";
         

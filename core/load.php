@@ -44,14 +44,27 @@ load_default_constants();
 // Registra a função de autoload.
 require_once ( CORE_PATH . 'bootstrap.php' );
 
+
+// Carrega o modulo de tradução
+load_translation();
+
+// Carrega as funcóes e variaveis por default.
+require_once ( CORE_INCLUDES_PATH . 'default-variables.php' );
+require_once ( CORE_INCLUDES_PATH . 'default-functions.php' );
+
 if ( ! file_exists( $configfilename = APP_CONFIG_PATH . 'config.php' ) ) {
-    Error::show( 404, 'O arquivo <code>config.php</code> não foi encontrado!' );
+    Error::show( 404, sprintf( __( 'O arquivo <code>%s</code> não foi encontrado!' ) , 'config.php' ) );
 }
 require_once ( $configfilename );
 
+// Arquivo routing onde pode ser adicionadas novos mapeamentos de rotas na url.
+if ( file_exists( $routingfilename = APP_CONFIG_PATH . 'routing.php' ) ) {
+    require_once ( $routingfilename );
+}
+
 // Verifica se ha alguma rota
 if ( ! Routing::has_routing() ) {
-    Error::show( 404, 'Nehuma <code>Routing</code> foi encontrada!');
+    Error::show( 404, sprintf( __('Nehuma <code>%s</code> foi encontrada!'), 'Routing' ) );
 }
 
 Routing::dispath( Url::get_base_uri() );

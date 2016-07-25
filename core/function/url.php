@@ -1,6 +1,6 @@
 <?php
 
-/*
+/* 
  * The MIT License
  *
  * Copyright 2016 Wallace Osmar https://github.com/wallaceosmar.
@@ -25,24 +25,44 @@
  */
 
 /**
- * Description of Controller
- *
+ * 
  * @author Wallace Osmar <wallace.osmar@r7.com>
+ * @version 1.0
+ * 
+ * @param string $path
+ * @return string
  */
-class Controller {
-    
-    public $model;
-    
-    public function __construct() {
-        
-    }
-    
-    public function _404() {
-        try {
-            Load::view('_share::404');
-        } catch (LoadException $ex) {
-            echo "<h1>404 Not Found</h2>";
-        }
-    }
-    
+function base_url ( $path ) {
+    return Url::base_url($path);
+}
+
+
+/**
+ * 
+ * @author Wallace Osmar <wallace.osmar@r7.com>
+ * @version 1.0
+ * 
+ * @param string $path
+ * @return string
+ */
+function base_content_url ( $path ) {
+    return Url::base_url( '/public/' .  ltrim( $path , '/') );
+}
+
+/**
+ * 
+ * @author Wallace Osmar <wallace.osmar@r7.com>
+ * @version 1.0
+ */
+function guess_url() {
+    Url::guess_url();
+}
+
+/**
+ * 
+ * @author Wallace Osmar <wallace.osmar@r7.com>
+ * @version 1.0
+ */
+function is_ssl() {
+    return Url::is_ssl();
 }

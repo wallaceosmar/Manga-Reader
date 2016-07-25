@@ -25,9 +25,9 @@
  */
 
 /**
- * Description of Request
+ * A Trait request é para o reuzo das funçoes de request.
  *
- * @author Wallace Osmar https://github.com/wallaceosmar
+ * @author Wallace Osmar <wallace.osmar@r7.com>
  * @version 0.2
  */
 trait Request {
@@ -73,7 +73,7 @@ trait Request {
      * @param string $name
      * @return mixed
      */
-    public function post( $name = NULL ) {
+    public function request_post( $name = NULL ) {
         if ( isset ( $_POST[ $name ] ) ) {
             return filter_input( INPUT_POST, $name );
         }
@@ -89,7 +89,7 @@ trait Request {
      * @param string $name
      * @return mixed
      */
-    public function get( $name = NULL ) {
+    public function request_get( $name = NULL ) {
         if ( isset ( $_GET[ $name ] ) ) {
             return filter_input( INPUT_GET, $name );
         }

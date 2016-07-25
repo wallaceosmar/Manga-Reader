@@ -21,7 +21,7 @@
 /**
  * Description of session
  *
- * @author Wallace Osmar https://github.com/wallaceosmar
+ * @author Wallace Osmar <wallace.osmar@r7.com>
  */
 class Session {
     

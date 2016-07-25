@@ -27,7 +27,7 @@
 /**
  * Description of Error
  *
- * @author Wallace Osmar https://github.com/wallaceosmar
+ * @author Wallace Osmar <wallace.osmar@r7.com>
  */
 class Error {
     
@@ -87,7 +87,7 @@ class Error {
     }
     
     private static function _html( $code, $message, $variables = array() ) {
-                extract($variables);
+        extract($variables);
         
         if ( ! isset ( $title ) ) {
             $title = self::errorCodeMessage($code);
@@ -97,7 +97,7 @@ class Error {
 <html>
     <head>
         <title><?php echo $title;?></title>
-        <link rel="stylesheet" type="text/css" href="<?php echo class_exists( 'Url' ) ? Url::base_url('public/css/error-page.css'): 'public/css/error-page.css';?>"/>
+        <link rel="stylesheet" type="text/css" href="<?php echo Url::base_url('public/css/error-page.min.css');?>"/>
     </head>
     <body>
         <h1><?php echo sprintf('[%1$s] %2$s', str_pad( $code, 4, '0' , STR_PAD_LEFT), $title);?></h1>

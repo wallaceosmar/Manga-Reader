@@ -1,6 +1,6 @@
 <?php
 
-/*
+/* 
  * The MIT License
  *
  * Copyright 2016 Wallace Osmar https://github.com/wallaceosmar.
@@ -25,24 +25,30 @@
  */
 
 /**
- * Description of Controller
- *
- * @author Wallace Osmar <wallace.osmar@r7.com>
+ * Modelo basico implementado
+ * 
+ * @param type $text
+ * @param type $domain
  */
-class Controller {
-    
-    public $model;
-    
-    public function __construct() {
-        
-    }
-    
-    public function _404() {
-        try {
-            Load::view('_share::404');
-        } catch (LoadException $ex) {
-            echo "<h1>404 Not Found</h2>";
-        }
-    }
-    
+function translate ( $text , $domain = 'default' ) {
+    return $text;
+}
+
+/**
+ * 
+ * @param type $text
+ * @param type $domain
+ * @return type
+ */
+function __( $text , $domain = 'default' ) {
+    return translate($text, $domain);
+}
+
+/**
+ * 
+ * @param type $text
+ * @param type $domain
+ */
+function _e( $text , $domain = 'default' ) {
+    echo translate( $text , $domain);
 }

@@ -33,14 +33,14 @@ spl_autoload_register(function ( $class_name ) {
     elseif ( file_exists ( $filepath = CORE_ABSTRACT_PATH . "class.{$class_name}.php" ) ):
     elseif ( file_exists ( $filepath = CORE_INTERFACE_PATH . "class.{$class_name}.php" ) ):
     elseif ( file_exists ( $filepath = CORE_LIBRARY_PATH . "class.{$class_name}.php" ) ):
-    elseif ( defined ( 'CURR_CONTROLLER_PATH' ) && file_exists ( $filepath = CURR_CONTROLLER_PATH . "class.{$class_name}.php" ) ):
     elseif ( file_exists ( $filepath = APP_CONTROLLER_PATH . "class.{$class_name}.php" ) ):
     elseif ( file_exists ( $filepath = APP_MODELS_PATH . "class.{$class_name}.php" ) ):
-    elseif ( file_exists ( $filepath = APP_ABSTRACT_PATH ) ):
+    elseif ( file_exists ( $filepath = APP_ABSTRACT_PATH . "class.{$class_name}.php" ) ):
+    else:
+        $filepath = false;
     endif;
     
-    
-    if ( '' !== $filepath ) {
+    if ( $filepath ) {
         require_once ( $filepath );
     }
     

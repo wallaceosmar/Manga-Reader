@@ -1,6 +1,6 @@
 <?php
 
-/*
+/* 
  * The MIT License
  *
  * Copyright 2016 Wallace Osmar https://github.com/wallaceosmar.
@@ -24,25 +24,41 @@
  * THE SOFTWARE.
  */
 
+$hooks = new Hooks();
+
 /**
- * Description of Controller
- *
- * @author Wallace Osmar <wallace.osmar@r7.com>
+ * 
+ * @global Hooks $hooks
+ * @param string $tag
+ * @param function $function_to_add
+ * @param int $priority
+ * @param int $accepted_args
  */
-class Controller {
+function add_action($tag, $function_to_add, $priority = 10, $accepted_args = 1) {
+    global $hooks;
     
-    public $model;
+    $hooks->add_action($tag, $function_to_add, $priority, $accepted_args);
+}
+
+/**
+ * 
+ * @global Hooks $hooks
+ * @param string $tag
+ * @param mixed $hooks
+ */
+function apply_filters($tag, $hooks) {
+    global $hooks;
     
-    public function __construct() {
-        
-    }
+    $hooks->apply_filters($tag, $hooks);
+}
+
+/**
+ * 
+ * @global Hooks $hooks
+ * @param string $tag
+ */
+function do_action ( $tag ) {
+    global $hooks;
     
-    public function _404() {
-        try {
-            Load::view('_share::404');
-        } catch (LoadException $ex) {
-            echo "<h1>404 Not Found</h2>";
-        }
-    }
-    
+    $hooks->do_action($tag);
 }

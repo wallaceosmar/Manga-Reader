@@ -27,31 +27,40 @@
 /**
  * Description of Load
  *
- * @author Wallace Osmar https://github.com/wallaceosmar
+ * @author Wallace Osmar <wallace.osmar@r7.com>
  */
 class Load {
     
+    private static $replace = array(
+        '/' => '',
+        '..' => '',
+        '::' => DS,
+        '{plataform}' => PLATAFORM
+    );
+    
     private static function _parse( $str ) {
+        self::$replace['{template}'] = defined( 'TEMPLATE_VIEW_PAGE' ) ?  TEMPLATE_VIEW_PAGE:  '';
         $str = preg_replace('/\\.[^.\\s]{3,4}$/', '', $str);
-        $str = str_replace(
-            array( '::', '..', '/'),
-            array( DS, '', ''),
-            $str);
+        $str = str_replace( array_keys( self::$replace ), self::$replace, $str );
         return $str;
     }
     
     /**
+     * <code>
+     *  {plataform} = nome da plataform
+     *  {template} = nome do template
+     * </code>
      * 
      * @param type $_path
      * @param type $_variables
      * @throws Exception
      */
     public static function view( $_path, $_variables = array() ) {
-        if ( file_exists ( $filename = CURR_VIEW_PATH . self::_parse( $_path ) . 'php' ) ) {
+        if ( file_exists ( $filename = CURR_VIEW_PATH . self::_parse( $_path ) . '.php' ) ) {
             extract( $_variables );
-            require_once ( $path );
+            require_once ( $filename );
         } else {
-            throw new LoadException( 'File not found', 404 );
+            throw new LoadException( sprintf( 'The file <code>%s</code> was not found' , $filename ) , 404 );
         }
     }
     

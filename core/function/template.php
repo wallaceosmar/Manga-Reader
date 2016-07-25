@@ -1,6 +1,6 @@
 <?php
 
-/*
+/* 
  * The MIT License
  *
  * Copyright 2016 Wallace Osmar https://github.com/wallaceosmar.
@@ -24,25 +24,48 @@
  * THE SOFTWARE.
  */
 
+// functions need
+register_load_group_functions('hooks');
+
 /**
- * Description of Controller
- *
- * @author Wallace Osmar <wallace.osmar@r7.com>
+ * Carrega todas as funçoes atribuidas para o cabecalho da pagina
+ * 
  */
-class Controller {
-    
-    public $model;
-    
-    public function __construct() {
-        
-    }
-    
-    public function _404() {
-        try {
-            Load::view('_share::404');
-        } catch (LoadException $ex) {
-            echo "<h1>404 Not Found</h2>";
-        }
-    }
-    
+function template_header() {
+    /**
+     * 
+     */
+    do_action("register_header_template");
+}
+
+/**
+ * Carrega todas as funçoes atribuidas para o rodape da pagina
+ */
+function template_footer() {
+    /**
+     * 
+     */
+    do_action("register_footer_template");
+}
+
+/**
+ * 
+ * @param type $function_to_add
+ */
+function register_template_section_header ( $function_to_add ) {
+    /**
+     * 
+     */
+    add_action( 'register_header_template', $function_to_add);
+}
+
+/**
+ * 
+ * @param type $function_to_add
+ */
+function register_template_section_footer ( $function_to_add ) {
+    /**
+     * 
+     */
+    add_action( 'register_footer_template', $function_to_add);
 }

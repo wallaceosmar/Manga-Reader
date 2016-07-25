@@ -1,6 +1,6 @@
 <?php
 
-/*
+/* 
  * The MIT License
  *
  * Copyright 2016 Wallace Osmar https://github.com/wallaceosmar.
@@ -25,24 +25,15 @@
  */
 
 /**
- * Description of Controller
  *
- * @author Wallace Osmar <wallace.osmar@r7.com>
+ * @global array $GLOBALS['_menu_']
+ * @name $_menu_ 
  */
-class Controller {
-    
-    public $model;
-    
-    public function __construct() {
-        
-    }
-    
-    public function _404() {
-        try {
-            Load::view('_share::404');
-        } catch (LoadException $ex) {
-            echo "<h1>404 Not Found</h2>";
-        }
-    }
-    
-}
+$GLOBALS['_menu_'] = array();
+
+/**
+ *
+ * @global Menu $GLOBALS['_menu_']
+ * @name $_navbar_ 
+ */
+$GLOBALS['_navbar_'] = new Menu();

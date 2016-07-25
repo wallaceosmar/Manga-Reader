@@ -26,8 +26,9 @@
 
 /**
  * 
+ * @author Wallace Osmar <wallace.osmar@r7.com>
  * @staticvar boolean $loaded
- * @return type
+ * @return null
  */
 function load_default_constants() {
     
@@ -40,4 +41,43 @@ function load_default_constants() {
     require_once ( ABSPATH . 'core' . DS . 'includes' . DS . 'default-constants.php' );
     require_once ( CORE_INCLUDES_PATH . 'version.php' );
     
+    return null;
+}
+
+/**
+ * 
+ * @global array $_load
+ * @param string $goupname
+ * @param boolean $instantload
+ * @return boolean
+ */
+function register_load_group_functions ( $goupnames ) {
+    global $_load;
+    
+    if ( ! is_array( $_load[ '_function' ] ) ) {
+        $_load[ '_function' ] = array();
+    }
+    
+    foreach ( (array) $goupnames as $goupname ) {
+        
+        if ( ! in_array( $goupname, $_load[ '_function' ] ) ) {
+            $goupname = strtolower($goupname);
+            if ( file_exists( $filename = sprintf( '%s%s.php', CORE_FUNCTION_PATH, $goupname ) ) ) {
+                require_once ( $filename );
+                array_push($_load[ '_function' ], $goupname);
+            }
+        }
+        
+        continue;
+    }
+}
+
+function load_translation () {
+    static $loaded = false;
+    if ( $loaded ) {
+        return NULL;
+    }
+    $loaded = true;
+    
+    register_load_group_functions('i18n');
 }
