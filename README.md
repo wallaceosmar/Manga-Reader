@@ -18,7 +18,7 @@ Nota: O projeto ainda está na versão alpha e varias das suas funcionalidades a
 - [ ] Implementação do Banco de Dados
 - [ ] Implementação da Classe de internacionalização
 - [ ] Implementação da Classe de Regras de Acesso
-- [ ] Implementação da Classe de Controle para 
+- [ ] Implementação da Classe de Controle
 - [ ] Implementação do Painel Administrativo
 
 ## Licença
