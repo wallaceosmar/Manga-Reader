@@ -13,27 +13,27 @@ Nota: O projeto ainda está na versão alpha e varias das suas funcionalidades a
 
 - [x] Desenvolvimento do Core
 - [x] Projeto do Banco de Dados
-- [ ] Desenvolvimento das Classes de Controller
--- [ ] Classe Index
---- [x] Função index e View
---- [ ] Função login e View
---- [ ] Função register e View
---- [x] Função search e View
--- [ ] Classe Pages
---- [x] Função lista de manga e View
---- [ ] Função mangas populares e View
---- [ ] Função mangas recentemente atualizados e View
--- [ ] Classe Manga
---- [ ] Função index e View
---- [ ] Função leitor e View
--- [ ] Classe Image
---- [x] Função para Banner
---- [x] Função para Capa (cover)
---- [ ] Função para Manga
 - [x] Implementação do Banco de Dados
 - [ ] Implementação da Classe de internacionalização
 - [ ] Implementação da Classe de Regras de Acesso
 - [ ] Implementação do Painel Administrativo
+- [ ] Desenvolvimento das Classes de Controller
+- [ ] - Classe Index
+- [x] -- Função index e View
+- [ ] -- Função login e View
+- [ ] -- Função register e View
+- [x] -- Função search e View
+- [ ] - Classe Pages
+- [x] -- Função lista de manga e View
+- [ ] -- Função mangas populares e View
+- [ ] -- Função mangas recentemente atualizados e View
+- [ ] - Classe Manga
+- [ ] -- Função index e View
+- [ ] -- Função leitor e View
+- [ ] - Classe Image
+- [x] -- Função para Banner
+- [x] -- Função para Capa (cover)
+- [ ] -- Função para Manga
 
 ## Licença
 MangaReader está licenciado sob os termos da [MIT](http://opensource.org/licenses/MIT)
