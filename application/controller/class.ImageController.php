@@ -33,6 +33,12 @@ class ImageController extends Controller {
     
     use Request;
     
+    public function __construct() {
+        parent::__construct();
+        
+        $this->model->Mangas = new MangasModel();
+    }
+    
     public function manga_get() {
         if (file_exists( $filename = ABSPATH . 'public' . DS . 'uploads' . DS . 'cover' . DS . '66ea01353c616e2b43f3d23badc26c75.jpg' ) ) {
             $image = new m2brimagem( $filename );
@@ -43,25 +49,42 @@ class ImageController extends Controller {
         $image->grava();
     }
     
-    public function cover_get( $name ) {
-        if (file_exists( $filename = ABSPATH . 'public' . DS . 'uploads' . DS . 'cover' . DS . "66ea01353c616e2b43f3d23badc26c75.jpg" ) ) {
+    public function cover_get( $slugname ) {
+        $manga = $this->model->Mangas->select( $slugname );
+        if ( is_a($manga, 'MangaEntity') && file_exists( $filename = sprintf( $manga->cover, UPLOAD_MANGA, UPLOAD_COVER ) ) ) {
             $image = new m2brimagem( $filename );
         } else {
             $image = new m2brimagem( ABSPATH . 'public' . DS . 'img' . DS . '404.png' );
         }
         
-        if ( '' !== ( $w = $this->request_get('w') ) && '' !== ( $h = $this->request_get('h') ) ) {
-            $image->redimensiona( $w, $h );
+        $tamanho = $this->request_get();
+        
+        if ( isset ( $tamanho['w'] ) && is_numeric( $tamanho['w'] ) ) {
+            if ( isset ( $tamanho['h'] ) && is_numeric( $tamanho['h'] ) ) {
+                $image->redimensiona( $tamanho['w'], $tamanho['h'] );
+            } else {
+                $image->redimensiona( $tamanho['w'] );
+            }
         }
         
         $image->grava();
     }
     
-    public function banner_get( $num = 1) {
-        if ( file_exists( $filename = ABSPATH . 'public' . DS . 'img' . DS . 'banner' . DS . "{$num}.png" ) ) {
+    public function banner_get( $number = 1) {
+        if ( file_exists( $filename = ABSPATH . 'public' . DS . 'img' . DS . 'banner' . DS . "{$number}.png" ) ) {
             $image = new m2brimagem( $filename );
         } else {
             $image = new m2brimagem( ABSPATH . 'public' . DS . 'img' . DS . '404.png' );
+        }
+        
+        $tamanho = $this->request_get();
+        
+        if ( isset ( $tamanho['w'] ) && is_numeric( $tamanho['w'] ) ) {
+            if ( isset ( $tamanho['h'] ) && is_numeric( $tamanho['h'] ) ) {
+                $image->redimensiona( $tamanho['w'], $tamanho['h'] );
+            } else {
+                $image->redimensiona( $tamanho['w'] );
+            }
         }
         
         $image->grava();

@@ -33,6 +33,7 @@ spl_autoload_register(function ( $class_name ) {
     elseif ( file_exists ( $filepath = CORE_ABSTRACT_PATH . "class.{$class_name}.php" ) ):
     elseif ( file_exists ( $filepath = CORE_INTERFACE_PATH . "class.{$class_name}.php" ) ):
     elseif ( file_exists ( $filepath = CORE_LIBRARY_PATH . "class.{$class_name}.php" ) ):
+    elseif ( file_exists ( $filepath = APP_ENTITY_PATH . "class.{$class_name}.php" ) ):
     elseif ( file_exists ( $filepath = APP_CONTROLLER_PATH . "class.{$class_name}.php" ) ):
     elseif ( file_exists ( $filepath = APP_MODELS_PATH . "class.{$class_name}.php" ) ):
     elseif ( file_exists ( $filepath = APP_ABSTRACT_PATH . "class.{$class_name}.php" ) ):
@@ -42,6 +43,13 @@ spl_autoload_register(function ( $class_name ) {
     
     if ( $filepath ) {
         require_once ( $filepath );
+    } else {
+        if ( ! function_exists('load_translation') ) {
+            require_once ( CORE_FUNCTION_PATH . 'load.php' );
+        }
+        load_translation();
+        
+        throw new Exception( sprintf( __('A classe %s não existe!') , "<code>{$class_name}</code>" ) );
     }
     
 });

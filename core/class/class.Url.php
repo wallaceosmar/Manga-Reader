@@ -51,6 +51,19 @@ class Url {
         return $base_url . ltrim( $path , '/');
     }
     
+    public static function getBaseUrl() {
+        
+        $currentPath = $_SERVER['PHP_SELF'];
+        // Supress the path_info for a more accurate base url.
+        if ( isset ( $_SERVER['PATH_INFO'] ) ) {
+            $currentPath = str_replace( $_SERVER['PATH_INFO'], '', $currentPath);
+        }
+        $http = ( Url::is_ssl() )? 'https' : 'http';
+        $pathInfo = pathinfo($currentPath);
+    
+        return sprintf('%s://%s%s', $http, $_SERVER['HTTP_HOST'], rtrim( $pathInfo['dirname'], '\\' ) . '/' );
+    }
+    
     /**
      * 
      * @return string
@@ -125,5 +138,5 @@ class Url {
         }
         return $uri;
     }
-    
+
 }

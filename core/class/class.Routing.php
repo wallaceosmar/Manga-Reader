@@ -158,7 +158,7 @@ class Routing {
                     str_replace( ")", ")?" , $url )
                 );
                 if ( preg_match ( "#^{$url}$#" , $uri , $matches ) ) {
-                    self::$_router_encouter = array_merge( $value, $matches, array('_uri' => $uri, '_uri_regex' => $url));
+                    self::$_router_encouter = array_merge( $value, $matches );
                     return TRUE;
                 }
             }
@@ -240,6 +240,8 @@ class Routing {
                 if( array_key_exists( $key, $params_old ) ){
                     $params_new[$i] = $params_old[$key];
                     unset( $params_old[$key] );
+                } else {
+                    $params_new[$i] = null;
                 }
             }
             // after reorder, merge the leftovers

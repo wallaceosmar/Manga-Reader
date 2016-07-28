@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-load::view('_share::header',array('title' => '[404] Not found'));
+load::view('{template}::_share::header',array('title' => '[404] Not found'));
 ?>
             <div class="row">
                 <div class="col-lg-12">
@@ -32,4 +32,4 @@ load::view('_share::header',array('title' => '[404] Not found'));
                 </div>
             </div>
 <?php
-load::view('_share::footer');
+load::view('{template}::_share::footer');

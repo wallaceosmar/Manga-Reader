@@ -25,30 +25,38 @@
  */
 
 /**
- * Description of Controller
+ * Description of LoadModel
  *
  * @author Wallace Osmar <wallace.osmar@r7.com>
  */
-class Controller {
+class ModelLoad {
     
-    public $model;
+    /**
+     *
+     * @var type 
+     */
+    public $data;
     
-    public $variables = array();
-    
-    public function __construct() {
-        $this->model = new ModelLoad();
-        $this->request = new RequestLoad();
-        if ( function_exists( 'get_option' ) && ! empty ( $title = get_option('app_title') ) ) {
-            $this->variables['title'] = $title;
-        }
+    /**
+     * 
+     * @param type $name
+     * @param type $value
+     */
+    public function __set($name, $value) {
+        $this->data[$name] = $value;
     }
     
-    public function _404() {
-        try {
-            Load::view('_share::404');
-        } catch (LoadException $ex) {
-            echo "<h1>404 Not Found</h2>";
+    /**
+     * 
+     * @param type $name
+     * @return type
+     */
+    public function __get($name) {
+        $_class_name = "{$name}Model";
+        if ( ! isset ( $this->data[ $name ] ) && ! is_a( $this->data[ $name ], $_class_name ) ) {
+            $this->data[ $name ] = new $_class_name();
         }
+        return $this->data[ $name ];
     }
     
 }

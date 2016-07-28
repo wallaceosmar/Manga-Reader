@@ -25,5 +25,5 @@
  */
 
 register_load_group_functions(array(
-    'url','template','menu'
+    'url','template','menu','function'
 ));

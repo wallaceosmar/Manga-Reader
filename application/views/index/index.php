@@ -31,7 +31,7 @@
                         
                         <div class="col-lg-12">
                             <div class="page-header">
-                                <h1 id="tables"><?php _e('20 ultimos mangas');?></h1>
+                                <h1 id="tables"><?php echo sprintf( __('%d ultimos mangas'), $maxInsertManga );?></h1>
                             </div>
                             <div class="bs-component live-less-editor-hovercontainer">
                                 <table class="table table-striped table-hover">
@@ -42,15 +42,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php foreach( (array) $insertManga as $manga ):?>
                                         <tr>
-                                            <td style="background-image:url('<?php echo base_url('/image/compressed/douluo-daulo/cover.jpg?w=100&h=142');?>');width:100px;height:100%;background-size: 100px; background-position:50% 30%; cursor: hand; cursor: pointer;" onclick="window.location = '<?php echo base_url("/manga/doulou-dalu/");?>';"></td>
+                                            <td style="background-image:url('<?php echo base_url("/image/compressed/{$manga->slug}/cover.jpg?w=100&h=142");?>');width:100px;height:100%;background-size: 100px; background-position:50% 30%; cursor: hand; cursor: pointer;" onclick="window.location = '<?php echo base_url("/manga/{$manga->slug}/");?>';"></td>
                                             <td>
                                                 <h4>
-                                                    <a href="<?php echo base_url('/manga/doulou-dalu/');?>">Doulou Dalu</a>
+                                                    <a href="<?php echo base_url( "/manga/{$manga->slug}/" );?>"><?php echo $manga->title;?></a>
                                                 </h4>
                                             </td>
-                                            <td>0</td>
+                                            <td><?php echo $manga->last_chapter?></td>
                                         </tr>
+                                        <?php endforeach;?>
                                     </tbody>
                                 </table>
                             </div>
@@ -59,19 +61,20 @@
                         <div class="col-lg-12">
                             
                             <div class="page-header">
-                                <h1 id="tables"><?php _e('50 ultimos mangas atualizados.');?></h1>
+                                <h1 id="tables"><?php echo sprintf( __('%d ultimos mangas atualizados.'), $maxUpdateManga );?></h1>
                             </div>
                             <div>
+                                <?php foreach ( $updateManga as $manga ): ?>
                                 <div>
-                                    <span data-toggle="mangapop" manga-slug="doulou-dalu" data-placement="right" data-original-title="Doulou Dalu (2011)" class="manga-2">
-                                        <b><a href="<?php echo base_url('/manga/doulou-dalu/');?>">Doulou Dalu</a></b>
+                                    <span data-toggle="mangapop" manga-slug="<?php echo $manga->slug;?>" data-placement="right" data-original-title="<?php echo sprintf( '%s (%s)', $manga->title, $manga->released );?>" class="manga-2">
+                                        <b><a href="<?php echo base_url("/manga/{$manga->slug}/");?>"><?php echo $manga->title;?></a></b>
                                     </span>
                                     <span class="pull-right">
-                                        <i><time class="timeago" datetime="2016-07-04 18:32:22"></time></i>
+                                        <i><time class="timeago" datetime="<?php echo $manga->last_update;?>"></time></i>
                                     </span>
                                     <br />
                                 </div>
-
+                                <?php endforeach;?>
                             </div>
                         </div>
                         
@@ -81,21 +84,21 @@
                 <div class="col-sm-3">
                     <h3><?php _e('Mangas mais populares.');?></h3>
                     <hr class="manga-hr">
-                    
-                    <span class="thumbnail" data-toggle="mangapop" data-placement="left" manga-slug="doulou-dalu" data-original-title="Doulou Dalu (2011)" style="padding: 10px; margin: 3px">
+                    <?php foreach( (array) $popularManga as $manga ):?>
+                    <span class="thumbnail" data-toggle="mangapop" data-placement="left" manga-slug="<?php echo $manga->slug;?>" data-original-title="Doulou Dalu (2011)" style="padding: 10px; margin: 3px">
                         <div class="media">
                             <a class="pull-left" href="<?php echo base_url('/manga/doulou-dalu/');?>">
-                                <img class="media-object img-thumb" src="<?php echo base_url('/image/compressed/douluo-daulo/cover.jpg?w=100&h=142');?>" alt="doulou-dalu">
+                                <img class="media-object img-thumb" src="<?php echo base_url("/image/compressed/{$manga->slug}/cover.jpg?w=100&h=142");?>" alt="<?php echo $manga->slug;?>">
                             </a>
                             <div class="media-body">
                                 <h3 class="media-heading" id="tables">
-                                    <a href="<?php echo base_url('/manga/doulou-dalu/');?>">Doulou Dalu</a>
+                                    <a href="<?php echo base_url("/manga/{$manga->slug}/");?>">Doulou Dalu</a>
                                 </h3>
                                 <?php echo sprintf('Total de visualizações %s', 0);?><br>
                             </div>
                         </div>
                     </span>
-                    
+                    <?php endforeach;?>
                 </div>
                 
             </div>

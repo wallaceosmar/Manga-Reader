@@ -96,7 +96,7 @@ class Session {
     
     static function generateSessionKey( $key ) {
         
-        return md5($key.CORE_VERSION);
+        return md5( $key . ( defined( 'VERSION_CORE' ) ? VERSION_CORE : ''));
     }
     
 }

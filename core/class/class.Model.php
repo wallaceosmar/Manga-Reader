@@ -31,6 +31,28 @@
  */
 class Model {
     
+    /**
+     *
+     * @var Connection 
+     */
+    public $database;
     
+    private function __connect() {
+        if( ! defined( 'DB_NAME' ) ) { throw new ErrorException( __('O nome da tabela não existe.') ); }
+        if( ! defined( 'DB_HOST' ) ) { throw new ErrorException( __('O host não foi informado.') ); }
+        if( ! defined( 'DB_USER' ) ) { throw new ErrorException( __('O usuario não foi informado.') ); }
+        if( ! defined( 'DB_PWDB' ) ) { throw new ErrorException( __('A senha não foi informada.') ); }
+        try {
+            $this->database = new Connection('mysql:dbname=' . DB_NAME . ';host=' . DB_HOST, DB_USER, DB_PWDB );
+        } catch (Exception $ex) {
+            Error::show( $ex->getCode() , $ex->getMessage() );
+        }
+    }
+    
+    public function __construct() {
+        if ( defined('USED_DB') && USED_DB ) {
+            $this->__connect();
+        }
+    }
     
 }

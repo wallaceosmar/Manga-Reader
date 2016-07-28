@@ -1,6 +1,6 @@
 <?php
 
-/*
+/* 
  * The MIT License
  *
  * Copyright 2016 Wallace Osmar https://github.com/wallaceosmar.
@@ -25,30 +25,51 @@
  */
 
 /**
- * Description of Controller
- *
- * @author Wallace Osmar <wallace.osmar@r7.com>
+ * 
+ * @global ConfigOption $_config_
+ * @param string $option
+ * @param mixed $value
+ * @param string $autoload
  */
-class Controller {
+function add_option( $option, $value = '', $autoload = 'yes' ) {
+    global $_config_;
     
-    public $model;
+    $_config_->add_option($option, $value, $autoload);
+}
+
+/**
+ * 
+ * @global ConfigOption $_config_
+ * @param string $option
+ */
+function delete_option( $option ) {
+    global $_config_;
     
-    public $variables = array();
     
-    public function __construct() {
-        $this->model = new ModelLoad();
-        $this->request = new RequestLoad();
-        if ( function_exists( 'get_option' ) && ! empty ( $title = get_option('app_title') ) ) {
-            $this->variables['title'] = $title;
-        }
-    }
+}
+
+/**
+ * 
+ * @global ConfigOption $_config_
+ * @param string $option
+ * @param string $default
+ * @return mixed
+ */
+function get_option( $option ) {
+    global $_config_;
     
-    public function _404() {
-        try {
-            Load::view('_share::404');
-        } catch (LoadException $ex) {
-            echo "<h1>404 Not Found</h2>";
-        }
-    }
+    return $_config_->get_option($option);
+}
+
+/**
+ * 
+ * @global ConfigOption $_config_
+ * @param string $option
+ * @param mixed $value
+ * @param string $autoload
+ */
+function update_option( $option, $value, $autoload = null ) {
+    global $_config_;
     
+    $_config_->update_option($option, $value, $autoload);
 }

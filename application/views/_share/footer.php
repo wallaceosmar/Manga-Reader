@@ -41,7 +41,7 @@
                             <!-- -->
                         </ul>
                         <!-- COPY RIGHT -->
-                        <p><?php echo sprintf( __('Copyright &COPY; %1$s - %2$s %3$s. Todos os direitor reservados.'), date('Y'), date('Y'), 'MangaReader');?></p>
+                        <p><?php echo sprintf( __('Copyright &COPY; %1$s - %2$s %3$s. Todos os direitor reservados.'), '2016', date('Y'), 'MangaReader');?></p>
                     </div>
                 </div>
                 <strong>Powered by <a href="https://github.com/wallaceosmar">wallaceosmar</a></strong>

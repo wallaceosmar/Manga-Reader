@@ -25,30 +25,20 @@
  */
 
 /**
- * Description of Controller
+ * Description of Connection
  *
  * @author Wallace Osmar <wallace.osmar@r7.com>
  */
-class Controller {
+class Connection extends PDO {
     
-    public $model;
+    private $_prefix = 'mr';
     
-    public $variables = array();
-    
-    public function __construct() {
-        $this->model = new ModelLoad();
-        $this->request = new RequestLoad();
-        if ( function_exists( 'get_option' ) && ! empty ( $title = get_option('app_title') ) ) {
-            $this->variables['title'] = $title;
-        }
+    public function set_prefix( $name ) {
+        $this->_prefix = rtrim( $name, '_' );
     }
     
-    public function _404() {
-        try {
-            Load::view('_share::404');
-        } catch (LoadException $ex) {
-            echo "<h1>404 Not Found</h2>";
-        }
+    public function __get($name) {
+        return "{$this->_prefix}_{$name}";
     }
     
 }

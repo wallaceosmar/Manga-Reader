@@ -39,10 +39,10 @@ class Load {
     );
     
     private static function _parse( $str ) {
-        self::$replace['{template}'] = defined( 'TEMPLATE_VIEW_PAGE' ) ?  TEMPLATE_VIEW_PAGE:  '';
+        self::$replace['{template}'] = defined( 'TEMPLATE_FOLDER_VIEW' ) ?  TEMPLATE_FOLDER_VIEW:  '';
         $str = preg_replace('/\\.[^.\\s]{3,4}$/', '', $str);
         $str = str_replace( array_keys( self::$replace ), self::$replace, $str );
-        return $str;
+        return rtrim( $str , '/' );
     }
     
     /**

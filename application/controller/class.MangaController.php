@@ -25,29 +25,29 @@
  */
 
 /**
- * Description of Controller
+ * Description of MangaController
  *
  * @author Wallace Osmar <wallace.osmar@r7.com>
  */
-class Controller {
-    
-    public $model;
-    
-    public $variables = array();
+class MangaController extends Controller {
     
     public function __construct() {
-        $this->model = new ModelLoad();
-        $this->request = new RequestLoad();
-        if ( function_exists( 'get_option' ) && ! empty ( $title = get_option('app_title') ) ) {
-            $this->variables['title'] = $title;
-        }
+        parent::__construct();
     }
     
-    public function _404() {
+    public function index_get( $slugname ) {
+        $manga = $this->model->Mangas->select( $slugname );
+        $this->variables['manga'] = $manga;
         try {
-            Load::view('_share::404');
-        } catch (LoadException $ex) {
-            echo "<h1>404 Not Found</h2>";
+            if ( is_a( $manga, 'MangaEntity') ) {
+                load::view('_share::header', $this->variables);
+                load::view('manga::index', $this->variables);
+                load::view('_share::footer', $this->variables);
+            } else {
+                $this->_404();
+            }
+        } catch (Exception $ex) {
+            $this->_404();
         }
     }
     

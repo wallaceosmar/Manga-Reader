@@ -25,30 +25,48 @@
  */
 
 /**
- * Description of Controller
+ * Description of MangaEntity
  *
  * @author Wallace Osmar <wallace.osmar@r7.com>
  */
-class Controller {
+class MangaEntity {
     
-    public $model;
+    public $data = array(
+        'chapters' => array()
+    );
     
-    public $variables = array();
+    public function __set($name, $value) {
+        $this->__parse_value_campo( $name, $value );
+    }
     
-    public function __construct() {
-        $this->model = new ModelLoad();
-        $this->request = new RequestLoad();
-        if ( function_exists( 'get_option' ) && ! empty ( $title = get_option('app_title') ) ) {
-            $this->variables['title'] = $title;
+    private function __parse_value_campo ( $name, $value ) {
+        switch ( $name ) {
+            case 'name':
+                $this->data['title'] = $value;
+                break;
+            case 'genres':
+            case 'artists':
+            case 'authors':
+                $this->data[$name] = explode(', ', $value);
+                break;
+            case 'other_name':
+                $this->data[$name] = explode('; ', $value);
+                break;
+            default :
+                $this->data[$name] = $value;
         }
     }
     
-    public function _404() {
-        try {
-            Load::view('_share::404');
-        } catch (LoadException $ex) {
-            echo "<h1>404 Not Found</h2>";
+    public function get_id () {
+        return $this->data['id_manga'];
+    }
+    
+    public function __get($name) {
+        switch ( $name ) {
+            case 'id':
+                return $this->get_id();
         }
+        return $this->data[ $name ];
     }
     
 }

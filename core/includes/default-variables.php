@@ -37,3 +37,10 @@ $GLOBALS['_menu_'] = array();
  * @name $_navbar_ 
  */
 $GLOBALS['_navbar_'] = new Menu();
+
+/**
+ *
+ * @global ConfigOption $GLOBALS['_config_']
+ * @name $_config_ 
+ */
+$GLOBALS['_config_'] = new ConfigOption();

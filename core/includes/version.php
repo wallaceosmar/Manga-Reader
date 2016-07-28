@@ -27,9 +27,9 @@
 /**
  * 
  */
-define( 'VERSION_CORE', '0.0.1-dev' );
+define( 'VERSION_CORE', '0.0.3-dev' );
 
 /**
  * 
  */
-define( 'VERSION_DATABASE', 0 );
+define( 'VERSION_DATABASE', 26 );

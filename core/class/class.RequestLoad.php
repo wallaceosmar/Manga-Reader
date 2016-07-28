@@ -25,30 +25,16 @@
  */
 
 /**
- * Description of Controller
+ * Description of RequestLoad
  *
  * @author Wallace Osmar <wallace.osmar@r7.com>
  */
-class Controller {
+class RequestLoad {
     
-    public $model;
+    use Request;
     
-    public $variables = array();
-    
-    public function __construct() {
-        $this->model = new ModelLoad();
-        $this->request = new RequestLoad();
-        if ( function_exists( 'get_option' ) && ! empty ( $title = get_option('app_title') ) ) {
-            $this->variables['title'] = $title;
-        }
-    }
-    
-    public function _404() {
-        try {
-            Load::view('_share::404');
-        } catch (LoadException $ex) {
-            echo "<h1>404 Not Found</h2>";
-        }
+    public function get( $name = NULL ) {
+        return $this->request_get($name);
     }
     
 }

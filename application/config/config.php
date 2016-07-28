@@ -1,12 +1,21 @@
 <?php
 
 register_load_group_functions(array(
-    'menu'
+    'menu','option'
 ),TRUE);
 
 if ( ! defined('TEMPLATE_VIEW_PAGE') ) {
     define('TEMPLATE_VIEW_PAGE', 'theme-default');
 }
+
+define('UPLOAD_MANGA', ABSPATH . 'public' . DS . 'uploads' . DS . 'manga');
+define('UPLOAD_COVER', ABSPATH . 'public' . DS . 'uploads' . DS . 'cover');
+
+define('USED_DB', TRUE);
+define('DB_HOST', 'localhost');
+define('DB_USER', 'MangaReader');
+define('DB_NAME', 'manga-reader');
+define('DB_PWDB', 'mangareader');
 
 // Routing the image files.
 Routing::get('/image/compressed/<slugname>/cover.jpg', array('controller' => 'Image', 'action' => 'cover'));
@@ -20,12 +29,13 @@ Routing::get('/api(/)?',array('plataform' => 'api', 'controller' => 'manga' ));
 // Administração.
 Routing::add(array('get','post'), '/admin/<controller>(/)?', array('plataforma' => 'admin'));
 // The page
-Routing::get('/manga/<slug>/<chapter>(/(<pagenumber>(/)?)?)?', array( 'plataform' => 'theme-default', 'controller' => 'manga', 'action' => 'read'));
-Routing::get('/manga/<slug>(/)?', array('controller' => 'manga', 'action' => 'manga'));
+Routing::get('/manga/<slugname>/<chapter>(/(<pagenumber>(/)?)?)?', array( 'controller' => 'manga', 'action' => 'read'));
+Routing::get('/manga/<slugname>(/)?', array('controller' => 'manga', 'action' => 'index'));
 Routing::get('/<controller>/<action>/<filter>/<name>(/<pagination>)?');
 Routing::get('/<controller>/(<action>(/<pagination>(/)?)?)?');
 Routing::get('/(<action>)?',array('controller' => 'index'));
 
+// Menu
 add_menu('navbar-right', sprintf( '<i class="fa fa-sign-in"></i>  %s' , __('Login')), base_url('/login'));
 add_menu('navbar-right', sprintf( '<i class="fa fa-user"></i>  %s', __('Registrar-se')), base_url('/register'));
 

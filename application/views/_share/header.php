@@ -31,7 +31,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Manga Reader (Alpha)</title>
+        <title><?php echo isset( $title ) ? $title : 'Manga Reader (Alpha)';?></title>
         <!-- Bootstrap -->
         <link href="<?php echo base_content_url('/bootstrap/css/bootstrap.min.css');?>" type="text/css" rel="stylesheet">
         <!-- Font Awesome -->
@@ -55,7 +55,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<?php echo base_url('/');?>">Manga Reader(Alpha)</a>
+                <a class="navbar-brand" href="<?php echo base_url('/');?>"><?php echo isset( $title ) ? $title : 'Manga Reader (Alpha)';?></a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -108,7 +108,7 @@
         <!-- Begin Banner -->
         <div class="container-fluid" style="margin: 0 0 20px 0;">
             <div class="row" id="banner-image">
-                <img src="<?php echo base_url( sprintf( '/image/%s/banner.png' , rand( 1, 6) ) );?>" style="max-height: 100%; max-width: 100%; width: 100%; height: auto;">
+                <img src="<?php echo base_url( sprintf( '/image/%s/banner.png?w=1900' , rand( 1, 6) ) );?>" style="max-height: 100%; max-width: 100%; width: 100%; height: auto;">
             </div>
         </div>
         <!-- End Banner -->
