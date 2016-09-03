@@ -33,9 +33,9 @@ class IndexController extends Controller {
         
     public function index_get() {
         
-        $this->variables['maxInsertManga'] = 20;
-        $this->variables['maxUpdateManga'] = 30;
-        $this->variables['maxPopularManga'] = 10;
+        $this->variables['maxInsertManga'] = (int) ( is_numeric( get_option('app_show_max_inset_manga') ) ? get_option('app_show_max_inset_manga') : 10);
+        $this->variables['maxUpdateManga'] = (int) ( is_numeric( get_option('app_show_max_update_manga') ) ? get_option('app_show_max_update_manga') : 100 );
+        $this->variables['maxPopularManga'] = (int) ( is_numeric( get_option('app_show_max_popular_manga') ) ? get_option('app_show_max_popular_manga') : 10 );
         
         $this->variables = array_merge(array(
             'insertManga' => $this->model->Mangas->lastInsertManga(0, $this->variables['maxInsertManga']),
@@ -74,11 +74,10 @@ class IndexController extends Controller {
     }
     
     public function search_get() {
-        $manga = array();
+        $this->variables['searchManga'] = array();
         if ( ! empty( $search = $this->request->get('q') ) ) {
-            $manga = $this->model->Mangas->search( $search, array('name', 'other_name') );            
+            $this->variables['searchManga'] = $this->model->Mangas->search( $search, array('name', 'other_name') );            
         }
-        $this->variables['searchManga'] = $manga;
         try {
             Load::view( '_share::header', $this->variables);
             Load::view( 'index::search', $this->variables);

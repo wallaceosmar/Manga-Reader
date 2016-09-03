@@ -36,6 +36,17 @@ function base_url ( $path ) {
     return Url::base_url($path);
 }
 
+/**
+ * 
+ * @author Wallace Osmar <wallace.osmar@r7.com>
+ * @version 1.0
+ * 
+ * @param string $path
+ * @return string
+ */
+function base_url_admin ( $path ) {
+    return Url::base_url( '/admin/' . ltrim( $path , '/') );
+}
 
 /**
  * 

@@ -85,16 +85,16 @@
                     <h3><?php _e('Mangas mais populares.');?></h3>
                     <hr class="manga-hr">
                     <?php foreach( (array) $popularManga as $manga ):?>
-                    <span class="thumbnail" data-toggle="mangapop" data-placement="left" manga-slug="<?php echo $manga->slug;?>" data-original-title="Doulou Dalu (2011)" style="padding: 10px; margin: 3px">
+                    <span class="thumbnail" data-toggle="mangapop" data-placement="left" manga-slug="<?php echo $manga->slug;?>" data-original-title="<?php echo sprintf('%s (%s)', $manga->title, $manga->released);?>" style="padding: 10px; margin: 3px">
                         <div class="media">
-                            <a class="pull-left" href="<?php echo base_url('/manga/doulou-dalu/');?>">
+                            <a class="pull-left" href="<?php echo base_url("/manga/{$manga->slug}/");?>">
                                 <img class="media-object img-thumb" src="<?php echo base_url("/image/compressed/{$manga->slug}/cover.jpg?w=100&h=142");?>" alt="<?php echo $manga->slug;?>">
                             </a>
                             <div class="media-body">
                                 <h3 class="media-heading" id="tables">
-                                    <a href="<?php echo base_url("/manga/{$manga->slug}/");?>">Doulou Dalu</a>
+                                    <a href="<?php echo base_url("/manga/{$manga->slug}/");?>"><?php echo $manga->title;?></a>
                                 </h3>
-                                <?php echo sprintf('Total de visualizações %s', 0);?><br>
+                                <?php echo sprintf('Total de visualizações %s', $manga->views);?><br>
                             </div>
                         </div>
                     </span>

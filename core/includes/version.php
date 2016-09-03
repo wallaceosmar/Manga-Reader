@@ -27,7 +27,7 @@
 /**
  * 
  */
-define( 'VERSION_CORE', '0.0.3-dev' );
+define( 'VERSION_CORE', '0.0.6-dev' );
 
 /**
  * 

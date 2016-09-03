@@ -32,7 +32,7 @@
                                 <li>
                                     <a class="manga-list-img" href="<?php echo base_url("/manga/{$manga->slug}");?>" rel="15291">
                                         <div style="float:left;overflow:hidden">
-                                            <img src="<?php echo base_url("/image/compressed/{$manga->slug}/cover.jpg?w=100&h=142");?>" width="100" />
+                                            <img src="<?php echo base_url("/image/compressed/{$manga->slug}/cover.jpg?w=100&h=142");?>" />
                                         </div>
                                     </a>
                                     <div class="manga-list-text">
@@ -49,9 +49,9 @@
                             <?php endif; ?>
                         </div>
                     </div>
+                    <?php if( isset ( $pagination ) && $pagination->enable ):?>
                     <div class="row">
                         <div class="col-lg-12">
-                            <?php if( $pagination->enable ):?>
                             <nav style="text-align: center;">
                                 <ul class="pagination">
                                     <?php if(($pagination->currentPage+1) == $pagination->preview ): ?>
@@ -81,9 +81,10 @@
                                     <?php endif;?>
                                 </ul>
                             </nav>
-                            <?php endif;?>
+                            
                         </div>
                     </div>
+                    <?php endif;?>
                 </div>
                 <div class="col-lg-3" style="margin-top: 50px;">
                     
@@ -114,9 +115,9 @@
                         </div>
                         <div>
                             <ul class="list-group">
-                                <li class="list-group-item"><span class="badge badge-success"><?php echo $statistc->mangas;?></span>Mangas</li>
-                                <li class="list-group-item"><span class="badge badge-danger"><?php echo $statistc->chapters;?></span>Chapters</li>
-                                <li class="list-group-item"><span class="badge badge-info"><?php echo $statistc->views;?></span>Total views</li>
+                                <li class="list-group-item"><span class="badge badge-success"><?php echo $statistic->mangas;?></span><?php _e('Mangas');?></li>
+                                <li class="list-group-item"><span class="badge badge-danger"><?php echo $statistic->chapters;?></span><?php _e('Capitulos');?></li>
+                                <li class="list-group-item"><span class="badge badge-info"><?php echo $statistic->views;?></span><?php _e('Total de visualizaçoes');?></li>
                             </ul>
                         </div>
                     </div>

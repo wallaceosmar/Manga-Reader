@@ -42,5 +42,6 @@ define( 'APP_ABSTRACT_PATH', APP_PATH . 'abstracts' . DS );
 define( 'APP_CONFIG_PATH', APP_PATH . 'config' . DS );
 define( 'APP_CONTROLLER_PATH', APP_PATH . 'controller' . DS );
 define( 'APP_ENTITY_PATH', APP_PATH . 'entity' . DS );
+define( 'APP_FUNCTION_PATH', APP_PATH . 'function' . DS );
 define( 'APP_MODELS_PATH', APP_PATH . 'models' . DS );
 define( 'APP_VIEWS_PATH', APP_PATH . 'views' . DS );

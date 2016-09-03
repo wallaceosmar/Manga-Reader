@@ -37,6 +37,10 @@ class Model {
      */
     public $database;
     
+    /**
+     * 
+     * @throws ErrorException
+     */
     private function __connect() {
         if( ! defined( 'DB_NAME' ) ) { throw new ErrorException( __('O nome da tabela não existe.') ); }
         if( ! defined( 'DB_HOST' ) ) { throw new ErrorException( __('O host não foi informado.') ); }

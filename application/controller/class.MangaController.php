@@ -37,6 +37,7 @@ class MangaController extends Controller {
     
     public function index_get( $slugname ) {
         $manga = $this->model->Mangas->select( $slugname );
+        $this->model->Mangas->updateView( $slugname );
         $this->variables['manga'] = $manga;
         try {
             if ( is_a( $manga, 'MangaEntity') ) {

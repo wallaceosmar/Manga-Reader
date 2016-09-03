@@ -43,7 +43,9 @@ class ModelLoad {
      * @param type $value
      */
     public function __set($name, $value) {
-        $this->data[$name] = $value;
+        if ( is_a( $value, "{$name}Model") ) {
+            $this->data[$name] = $value;
+        }
     }
     
     /**

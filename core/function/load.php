@@ -62,9 +62,24 @@ function register_load_group_functions ( $goupnames ) {
         
         if ( ! in_array( $goupname, $_load[ '_function' ] ) ) {
             $goupname = strtolower($goupname);
-            if ( file_exists( $filename = sprintf( '%s%s.php', CORE_FUNCTION_PATH, $goupname ) ) ) {
-                require_once ( $filename );
+            $required = false;
+            while( TRUE ) {
+                
+                if ( file_exists( $filename = sprintf( '%s%s.php', CORE_FUNCTION_PATH, $goupname ) ) ) {
+                    $required = true;
+                    require_once ( $filename );
+                }
+                
+                if ( file_exists( $filename = sprintf( '%s%s.php', APP_FUNCTION_PATH, $goupname ) ) ) {
+                    $required = ( $required ) ? $required : true;
+                    require_once ( $filename );
+                }
+                if ( $required ) {
+                    break;
+                }
+                
                 array_push($_load[ '_function' ], $goupname);
+                break;
             }
         }
         
@@ -72,6 +87,11 @@ function register_load_group_functions ( $goupnames ) {
     }
 }
 
+/**
+ * 
+ * @staticvar boolean $loaded
+ * @return
+ */
 function load_translation () {
     static $loaded = false;
     if ( $loaded ) {

@@ -37,13 +37,24 @@ class ImageController extends Controller {
         parent::__construct();
         
         $this->model->Mangas = new MangasModel();
+        $this->model->Chapter = new ChapterModel();
     }
     
-    public function manga_get() {
-        if (file_exists( $filename = ABSPATH . 'public' . DS . 'uploads' . DS . 'cover' . DS . '66ea01353c616e2b43f3d23badc26c75.jpg' ) ) {
+    public function manga_get( $slugname, $chapter, $pagenumber ) {
+        if ( file_exists( $filename = '' ) ) {
             $image = new m2brimagem( $filename );
         } else {
             $image = new m2brimagem( ABSPATH . 'public' . DS . 'img' . DS . '404.png' );
+        }
+        
+        $tamanho = $this->request_get();
+        
+        if ( isset ( $tamanho['w'] ) && is_numeric( $tamanho['w'] ) ) {
+            if ( isset ( $tamanho['h'] ) && is_numeric( $tamanho['h'] ) ) {
+                $image->redimensiona( $tamanho['w'], $tamanho['h'] );
+            } else {
+                $image->redimensiona( $tamanho['w'] );
+            }
         }
         
         $image->grava();
@@ -51,10 +62,31 @@ class ImageController extends Controller {
     
     public function cover_get( $slugname ) {
         $manga = $this->model->Mangas->select( $slugname );
-        if ( is_a($manga, 'MangaEntity') && file_exists( $filename = sprintf( $manga->cover, UPLOAD_MANGA, UPLOAD_COVER ) ) ) {
-            $image = new m2brimagem( $filename );
-        } else {
+        while( TRUE ) {
+            
             $image = new m2brimagem( ABSPATH . 'public' . DS . 'img' . DS . '404.png' );
+            
+            if ( ! is_a($manga, 'MangaEntity') ) {
+                break;
+            }
+            
+            $md5 = md5( $manga->id );
+            $filename = UPLOAD_COVER . DS . "{$md5}.jpg";
+            
+            if( ! file_exists( $filename ) ){
+                if ( false !== strpos( $manga->cover, 'http://' ) ) {
+                    if ( empty( $content = file_get_contents( $manga->cover ) ) ) {
+                        break;
+                    }
+                    file_put_contents( $filename , $content );
+                } elseif ( ! file_exists( $filename = sprintf( $manga->cover, UPLOAD_MANGA, UPLOAD_COVER, md5($manga->id) ) ) ) {
+                    break;
+                }
+            }
+            
+            $image = new m2brimagem( $filename );
+            
+            break;
         }
         
         $tamanho = $this->request_get();

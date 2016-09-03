@@ -22,7 +22,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="row">
-                        <div class="col-lg-12" style="min-height: 1467px;">
+                        <div class="col-lg-12" style="min-height: 200px;">
                             <div class="page-header" style="border-bottom:2px solid #efefef;">
                                 <h1><?php _e('Lista de Mangas aualizados recentemente');?></h1>    
                             </div>
@@ -32,11 +32,11 @@
                                 <li>
                                     <a class="manga-list-img" href="<?php echo base_url("/manga/{$manga->slug}");?>" rel="15291">
                                         <div style="float:left;overflow:hidden">
-                                            <img src="<?php echo $manga->cover;?>" onerror="this.src='<?php echo base_url('public/img/cover/no-fpund.png');?>';" width="100" />
+                                            <img src="<?php echo base_url("/image/compressed/{$manga->slug}/cover.jpg?w=100&h=142");?>" />
                                         </div>
                                     </a>
                                     <div class="manga-list-text">
-                                        <a class="title" href="<?php echo base_url("/manga/{$manga->slug}");?>" rel="15291"><?php echo $manga->name;?></a>
+                                        <a class="title" href="<?php echo base_url("/manga/{$manga->slug}");?>" rel="15291"><?php echo $manga->title;?></a>
                                         <p class="info"> <?php echo sprintf( __('%d vizualizações') , $manga->views )?></p>
                                     </div>
                                 </li>
@@ -49,5 +49,41 @@
                             <?php endif; ?>
                         </div>
                     </div>
+                    <?php if( isset ( $pagination ) && $pagination->enable ):?>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <nav style="text-align: center;">
+                                <ul class="pagination">
+                                    <?php if(($pagination->currentPage+1) == $pagination->preview ): ?>
+                                    <li class="disabled">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </li>
+                                    <?php else:?>
+                                    <li>
+                                        <a href="<?php echo base_url( sprintf( $pagination->url , $pagination->preview ) );?>" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    <?php endif;?>
+                                    <?php for( $i = $pagination->beginFor; $i < $pagination->endFor+1; $i++ ):?>
+                                    <li><a href="<?php echo base_url( sprintf( $pagination->url , $i ) );?>"><?php echo $i;?></a></li>
+                                    <?php endfor;?>
+                                    <?php if(($pagination->currentPage+1) == $pagination->next):?>
+                                    <li class="disabled">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </li>
+                                    <?php else:?>
+                                    <li>
+                                        <a href="<?php echo base_url( sprintf( $pagination->url , $pagination->next ) );?>" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                    <?php endif;?>
+                                </ul>
+                            </nav>
+                            
+                        </div>
+                    </div>
+                    <?php endif;?>
                 </div>
             </div>

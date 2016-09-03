@@ -186,9 +186,11 @@ class Routing {
             switch( $key ) {
                 case 'controller':
                     $controllerName = str_replace( '-', '_', $value);
+                    define( 'CONTROLLER', $controllerName );
                     break;
                 case 'action':
                     $methodName = str_replace( '-', '_', $value);
+                    define( 'ACTION', $methodName );
                     break;
                 case 'plataform':
                     $plataform = self::$_router_encouter['plataform'];

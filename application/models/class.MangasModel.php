@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2016 Wallace Osmar https://github.com/wallaceosmar
+ * Copyright 2016 Wallace Osmar https://github.com/wallaceosmar.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -51,6 +51,14 @@ class MangasModel extends Model {
             if ( $stmt->rowCount() > 0 ) {
                 $mangaEntity = array();
                 while( $row = $stmt->fetchObject('MangaEntity') ) {
+                    if ( $chapters = $this->database->prepare( "SELECT * FROM `{$this->database->manga_chapter}` WHERE `manga` = ?" ) ) {
+                        $chapters->bindParam( 1, $row->slug);
+                        if ( $chapters->execute() ) {
+                            while ( $chapter = $chapters->fetchObject('ChapterEntity') ) {
+                                
+                            }
+                        }
+                    }
                     $mangaEntity[] = $row;
                 }
                 return $mangaEntity;
@@ -77,6 +85,16 @@ class MangasModel extends Model {
             return FALSE;
         }
         return NULL;
+    }
+    
+    public function countAllChapters() {
+        $stmt = $this->database->query("SELECT count(*) as `total` FROM `{$this->database->manga_chapter}`;");
+        return (int) $stmt->fetch()['total'];
+    }
+    
+    public function countAllViews() {
+        $stmt = $this->database->query("SELECT sum(`views`) as `total` FROM `{$this->database->manga}`;");
+        return (int) $stmt->fetch()['total'];
     }
     
     public function get_list_manga ( $inicial = 0, $final = 20 , $field = NULL, $search = '' ) {
@@ -117,7 +135,7 @@ class MangasModel extends Model {
             $this->length = $contador->fetch()['count'];
             unset( $contador );
             
-            $sql .= " LIMIT :ini, :fim";
+            $sql .= " ORDER BY `name` ASC LIMIT :ini, :fim";
             
             if ( ! is_a( $stmt = $this->database->prepare($sql) , 'PDOStatement') ) {
                 return array();
@@ -188,7 +206,7 @@ class MangasModel extends Model {
     }
     
     public function mostPopularManga( $ini, $fim ) {
-        if ( $contador = $this->database->query( "SELECT count(*) as `CONT` FROM `{$this->database->manga}` ORDER BY `views` DESC" ) ) {
+        if ( $contador = $this->database->query( "SELECT count(*) as `CONT` FROM `{$this->database->manga}` ORDER BY `views` DESC") ) {
             $this->lenght = $contador->fetch()['CONT'];
             unset($contador);
             $stmt = $this->database->prepare("SELECT * FROM `{$this->database->manga}` ORDER BY `views` DESC LIMIT ?,?");
@@ -196,19 +214,21 @@ class MangasModel extends Model {
             $stmt->bindParam(2, $fim, Connection::PARAM_INT);
             if ( $stmt->execute() ) {
                 $mangaEntity = array();
-                $ct = 0;
                 while( $row = $stmt->fetchObject('MangaEntity') ) {
-                    $mangaEntity[$ct++] = $row;
+                    $mangaEntity[] = $row;
                 }
-                if ( $ct > 0 ) {
-                    return $mangaEntity;
-                }
+                return $mangaEntity;
             }
             return FALSE;
         }
         return NULL;
     }
     
+    /**
+     * 
+     * @param string $slugName
+     * @return MangaEntity
+     */
     public function select( $slugName ) {
         $stmt = $this->database->prepare("SELECT * FROM `{$this->database->manga}` WHERE `slug` = ?;");
         $stmt->bindValue(1, $slugName, Connection::PARAM_STR );
@@ -216,6 +236,15 @@ class MangasModel extends Model {
             return $stmt->fetchObject('MangaEntity');
         }
         return NULL;
+    }
+    
+    public function updateView( $slugname ) {
+        if ( empty( $slugname ) ) {
+            return null;
+        }
+        $object = $this->select($slugname);
+        $stmt = $this->database->prepare("UPDATE `{$this->database->manga}` SET `views`=? WHERE `id_manga`=?;");
+        return $stmt->execute(array($object->views + 1, $object->id));
     }
     
     public function listManga ( $order = 'ASC', $ini = 0, $fim = 20 ) {
