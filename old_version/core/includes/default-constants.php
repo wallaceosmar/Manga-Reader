@@ -24,19 +24,24 @@
  * THE SOFTWARE.
  */
 
-spl_autoload_register(function( $classname ){
-    
-    $filename = false;
-    
-    if( file_exists( $filename = CORE_CLASS_PATH . "class.{$classname}.php" ) ):
-    elseif( file_exists( $filename = APP_CONTROLLER_PATH . "class.{$classname}.php" ) ):
-    else:
-        $filename = false;
-    endif;
-    
-    if ( ! $filename ) {
-        throw new Exception();
-    }
-    
-    require_once ( $filename );
-});
+// Default constants
+define( 'CORE_PATH', ABSPATH . 'core' . DS );
+define( 'APP_PATH', ABSPATH . 'application' . DS );
+define( 'PUBLIC_PATH', ABSPATH . 'public' . DS );
+
+// Core default constants
+define( 'CORE_ABSTRACT_PATH', CORE_PATH . 'abstracts' . DS );
+define( 'CORE_CLASS_PATH', CORE_PATH . 'class' . DS );
+define( 'CORE_FUNCTION_PATH', CORE_PATH . 'function' . DS );
+define( 'CORE_INCLUDES_PATH', CORE_PATH . 'includes' . DS );
+define( 'CORE_INTERFACE_PATH', CORE_PATH . 'interfaces' . DS );
+define( 'CORE_LIBRARY_PATH', CORE_PATH . 'libs' . DS );
+
+// Application default constants
+define( 'APP_ABSTRACT_PATH', APP_PATH . 'abstracts' . DS );
+define( 'APP_CONFIG_PATH', APP_PATH . 'config' . DS );
+define( 'APP_CONTROLLER_PATH', APP_PATH . 'controller' . DS );
+define( 'APP_ENTITY_PATH', APP_PATH . 'entity' . DS );
+define( 'APP_FUNCTION_PATH', APP_PATH . 'function' . DS );
+define( 'APP_MODELS_PATH', APP_PATH . 'models' . DS );
+define( 'APP_VIEWS_PATH', APP_PATH . 'views' . DS );

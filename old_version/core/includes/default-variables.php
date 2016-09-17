@@ -24,19 +24,23 @@
  * THE SOFTWARE.
  */
 
-spl_autoload_register(function( $classname ){
-    
-    $filename = false;
-    
-    if( file_exists( $filename = CORE_CLASS_PATH . "class.{$classname}.php" ) ):
-    elseif( file_exists( $filename = APP_CONTROLLER_PATH . "class.{$classname}.php" ) ):
-    else:
-        $filename = false;
-    endif;
-    
-    if ( ! $filename ) {
-        throw new Exception();
-    }
-    
-    require_once ( $filename );
-});
+/**
+ *
+ * @global array $GLOBALS['_menu_']
+ * @name $_menu_ 
+ */
+$GLOBALS['_menu_'] = array();
+
+/**
+ *
+ * @global Menu $GLOBALS['_menu_']
+ * @name $_navbar_ 
+ */
+$GLOBALS['_navbar_'] = new Menu();
+
+/**
+ *
+ * @global ConfigOption $GLOBALS['_config_']
+ * @name $_config_ 
+ */
+$GLOBALS['_config_'] = new ConfigOption();

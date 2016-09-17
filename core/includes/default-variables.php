@@ -24,23 +24,3 @@
  * THE SOFTWARE.
  */
 
-/**
- *
- * @global array $GLOBALS['_menu_']
- * @name $_menu_ 
- */
-$GLOBALS['_menu_'] = array();
-
-/**
- *
- * @global Menu $GLOBALS['_menu_']
- * @name $_navbar_ 
- */
-$GLOBALS['_navbar_'] = new Menu();
-
-/**
- *
- * @global ConfigOption $GLOBALS['_config_']
- * @name $_config_ 
- */
-$GLOBALS['_config_'] = new ConfigOption();

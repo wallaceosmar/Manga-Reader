@@ -24,19 +24,14 @@
  * THE SOFTWARE.
  */
 
-spl_autoload_register(function( $classname ){
-    
-    $filename = false;
-    
-    if( file_exists( $filename = CORE_CLASS_PATH . "class.{$classname}.php" ) ):
-    elseif( file_exists( $filename = APP_CONTROLLER_PATH . "class.{$classname}.php" ) ):
-    else:
-        $filename = false;
-    endif;
-    
-    if ( ! $filename ) {
-        throw new Exception();
-    }
-    
-    require_once ( $filename );
-});
+function __( $text, $domain = 'default') {
+    return translate($text, $domain);
+}
+
+function _e( $text, $domain = 'default') {
+    echo translate($text,$domain);
+}
+
+function translate( $text, $domain = 'default') {
+    return $text;
+}

@@ -24,10 +24,13 @@
  * THE SOFTWARE.
  */
 
-define('DEBUG_MODE', 'development');
+/**
+ * 
+ */
+define('APPLICATION_ENV', 'development');
 
-if ( defined( 'DEBUG_MODE' ) ) {
-    switch( DEBUG_MODE ) {
+if ( defined( 'APPLICATION_ENV' ) ) {
+    switch( APPLICATION_ENV ) {
         case 'development':
             error_reporting (E_ALL );
             ini_set('display_errors', 1);
@@ -41,8 +44,24 @@ if ( defined( 'DEBUG_MODE' ) ) {
     }
 }
 
+/**
+ * 
+ */
 define('DS', DIRECTORY_SEPARATOR);
-define('ABSPATH', dirname( __FILE__ ) . DS);
+/**
+ * 
+ */
+define('ABSPATH', dirname ( dirname( __FILE__ ) ) . DS);
 
-// 
-require_once ( ABSPATH . 'core' . DS . 'load.php' );
+try {
+    require_once ( ABSPATH . DS . 'core' . DS . 'init.php' );
+} catch (Exception $ex) {
+    // class exception (non user)
+    echo '<h2>Exception</h2>' .
+         '<p>The application has triggered an exception that has prevented this webpage from being completed.</p>';
+    if (APPLICATION_ENV === 'development') {
+        echo '<p>' . $ex->getMessage() . '</p>' .
+             '<p>' . $ex->getFile() . ' (' . $ex->getLine() . ')</p>';
+    }
+    echo str_replace("\n", '<br />', $ex->getTraceAsString());
+}

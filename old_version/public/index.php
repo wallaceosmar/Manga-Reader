@@ -24,19 +24,25 @@
  * THE SOFTWARE.
  */
 
-spl_autoload_register(function( $classname ){
-    
-    $filename = false;
-    
-    if( file_exists( $filename = CORE_CLASS_PATH . "class.{$classname}.php" ) ):
-    elseif( file_exists( $filename = APP_CONTROLLER_PATH . "class.{$classname}.php" ) ):
-    else:
-        $filename = false;
-    endif;
-    
-    if ( ! $filename ) {
-        throw new Exception();
+define('DEBUG_MODE', 'development');
+
+if ( defined( 'DEBUG_MODE' ) ) {
+    switch( DEBUG_MODE ) {
+        case 'development':
+            error_reporting (E_ALL );
+            ini_set('display_errors', 1);
+            break;
+        case 'production':
+            error_reporting( 0 );
+            ini_set('display_errors', 0);
+            break;
+        default:
+            exit('The emviroment is not configurate.');
     }
-    
-    require_once ( $filename );
-});
+}
+
+define('DS', DIRECTORY_SEPARATOR);
+define('ABSPATH', dirname( dirname( __FILE__ ) ) . DS);
+
+// 
+require_once ( ABSPATH . 'core' . DS . 'load.php' );

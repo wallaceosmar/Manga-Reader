@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2016 Wallace Osmar https://github.com/wallaceosmar.
@@ -24,19 +24,15 @@
  * THE SOFTWARE.
  */
 
-spl_autoload_register(function( $classname ){
+/**
+ * Description of Dispatcher
+ *
+ * @author Wallace Osmar <wallace.osmar@r7.com>
+ */
+class Dispatcher {
     
-    $filename = false;
-    
-    if( file_exists( $filename = CORE_CLASS_PATH . "class.{$classname}.php" ) ):
-    elseif( file_exists( $filename = APP_CONTROLLER_PATH . "class.{$classname}.php" ) ):
-    else:
-        $filename = false;
-    endif;
-    
-    if ( ! $filename ) {
-        throw new Exception();
+    public function run() {
+        
     }
     
-    require_once ( $filename );
-});
+}

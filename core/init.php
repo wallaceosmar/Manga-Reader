@@ -24,19 +24,30 @@
  * THE SOFTWARE.
  */
 
-spl_autoload_register(function( $classname ){
-    
-    $filename = false;
-    
-    if( file_exists( $filename = CORE_CLASS_PATH . "class.{$classname}.php" ) ):
-    elseif( file_exists( $filename = APP_CONTROLLER_PATH . "class.{$classname}.php" ) ):
-    else:
-        $filename = false;
-    endif;
-    
-    if ( ! $filename ) {
-        throw new Exception();
-    }
-    
-    require_once ( $filename );
-});
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
+/**
+ * 
+ */
+global $_core, $_app;
+//
+require_once ( dirname ( __FILE__ ) . DS . 'functions' . DS . 'load.php' );
+// Primary Load
+load_defaults_constants();
+// A file how load the class need to use
+require_once ( CORE_PATH . 'bootstrap.php' );
+// Carrega as traduçoes
+load_tranlation_early();
+// Carrega as variaveis defaults.
+load_defaults('variables');
+
+if ( ! file_exists ( $configfilename = APP_CONFIG_PATH . 'config.php' ) ) {
+    //throw new Exception( '', '4000' );
+}
+
+//require_once ( $configfilename );
+// Start
+
+$Dispatcher = new Dispatcher();
