@@ -1,0 +1,17 @@
+{
+    "name": "mangareader/mangareader",
+    "type": "application",
+    "description": "MangaReader é um leitor de manga online",
+    "keywords": ["manga","reader","php"],
+    "licence": "MIT",
+    "authors": [
+        {
+            "name": "Wallace Osmar",
+            "email": "wallace.osmar@r7.com",
+            "homepage": "https://github.com/wallaceosmar/"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0"
+    }
+}

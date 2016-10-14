@@ -24,19 +24,66 @@
  * THE SOFTWARE.
  */
 
-spl_autoload_register(function( $classname ){
-    
-    $filename = false;
-    
-    if( file_exists( $filename = CORE_CLASS_PATH . "class.{$classname}.php" ) ):
-    elseif( file_exists( $filename = APP_CONTROLLER_PATH . "class.{$classname}.php" ) ):
-    else:
-        $filename = false;
+/**
+ * Load the Core Class Application
+ */
+spl_autoload_register(function ( $class ){
+    if ( file_exists( $filename = CORE_CLASS_PATH . __NAMESPACE__ . "class.{$class}.php" ) ):
+    elseif ( ! file_exists( $filename = CORE_CLASS_PATH . $class . DS . __NAMESPACE__ . $class . '.class.php' ) ):
+        return false;
     endif;
     
-    if ( ! $filename ) {
-        throw new Exception();
+    require_once ( $filename );
+    return TRUE;
+});
+
+/**
+ * Load
+ */
+spl_autoload_register( function ( $class ){
+    if ( ! file_exists( $filename = CORE_TRAIT_PATH . __NAMESPACE__ . "trait.{$class}.php" ) ):
+        return false;
+    endif;
+    
+    require_once ( $filename );
+    return TRUE;
+});
+
+/**
+ * Load the Controller Class Application
+ */
+spl_autoload_register( function ( $class ){
+    
+    if( ! file_exists( $filename = APP_CONTROLLER_PATH . ( defined( 'PLATAFORM_NAME' ) ? PLATAFORM_NAME . DS : '' ) . __NAMESPACE__ . "class.{$class}.php" ) ):
+        return false;
+    endif;
+    
+    require_once ( $filename );
+    return TRUE;
+});
+
+/**
+ * Load the Models Class Application
+ */
+spl_autoload_register( function ( $class ){
+    
+    if ( ! file_exists( $filename = APP_MODELS_PATH . __NAMESPACE__ . "class.{$class}.php" ) ) {
+        return false;
     }
     
     require_once ( $filename );
+    return TRUE;
+});
+
+/**
+ * Load the Entity Class Application
+ */
+spl_autoload_register( function ( $class ){
+    
+    if ( ! file_exists( $filename = APP_ENTITY_PATH . __NAMESPACE__ . "class.{$class}.php" ) ):
+        return false;
+    endif;
+    
+    require_once ( $filename );
+    return TRUE;
 });

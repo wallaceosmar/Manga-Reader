@@ -42,12 +42,19 @@ require_once ( CORE_PATH . 'bootstrap.php' );
 load_tranlation_early();
 // Carrega as variaveis defaults.
 load_defaults('variables');
+// 
+load_defaults('functions');
 
-if ( ! file_exists ( $configfilename = APP_CONFIG_PATH . 'config.php' ) ) {
-    //throw new Exception( '', '4000' );
+if ( ! file_exists ( APP_CONFIG_PATH . 'config.php' ) ) {
+    throw new Exception( '', '4000' );
 }
 
-//require_once ( $configfilename );
-// Start
+require_once ( APP_CONFIG_PATH . 'config.php' );
 
-$Dispatcher = new Dispatcher();
+// Carrega o mapeamento de url
+if ( file_exists( APP_CONFIG_PATH . 'routing.php' ) ) {
+    require_once ( APP_CONFIG_PATH . 'routing.php' );
+}
+
+// Start
+$_dispatch->run();

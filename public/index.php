@@ -32,7 +32,7 @@ define('APPLICATION_ENV', 'development');
 if ( defined( 'APPLICATION_ENV' ) ) {
     switch( APPLICATION_ENV ) {
         case 'development':
-            error_reporting (E_ALL );
+            error_reporting ( E_ALL );
             ini_set('display_errors', 1);
             break;
         case 'production':

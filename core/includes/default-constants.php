@@ -31,10 +31,24 @@ define( 'CORE_PATH' , ABSPATH . 'core' . DS );
 define( 'CORE_INCLUDES_PATH', CORE_PATH . 'includes' . DS );
 define( 'CORE_FUNCTIONS_PATH', CORE_PATH . 'functions' . DS );
 define( 'CORE_CLASS_PATH', CORE_PATH . 'class' . DS );
+define( 'CORE_TRAIT_PATH', CORE_PATH . 'trait' . DS );
 
 /*
  * 
  */
 define( 'APP_PATH', ABSPATH . 'application' . DS );
-define( 'APP_CONFIG_PATH', APP_PATH . 'config' . DS );
-define( 'APP_CONTROLLER_PATH', APP_PATH . 'controller' . DS );
+define( 'APP_CONFIG_PATH', APP_PATH . 'configs' . DS );
+define( 'APP_CONTROLLER_PATH', APP_PATH . 'controllers' . DS );
+define( 'APP_MODELS_PATH', APP_PATH . 'models' . DS );
+define( 'APP_VIEWS_PATH', APP_PATH . 'views' . DS );
+define( 'APP_ENTITY_PATH', APP_PATH . 'entity' . DS );
+
+/*
+ * 
+ */
+define( 'DATA_PATH', ABSPATH . 'data' . DS );
+define( 'DATA_CAHCE_PATH', DATA_PATH . 'cache' . DS );
+define( 'DATA_LOCALE_PATH', DATA_PATH . 'locales' . DS );
+define( 'DATA_TEMPLATE_PATH', DATA_PATH . 'template' . DS );
+define( 'DATA_LOGS_PATH', DATA_PATH . 'logs' . DS );
+define( 'DATA_UPLOADS_PATH', DATA_PATH . 'uploads' . DS );

@@ -51,6 +51,10 @@ class Url {
         return $base_url . ltrim( $path , '/');
     }
     
+    /**
+     * 
+     * @return type
+     */
     public static function getBaseUrl() {
         
         $currentPath = $_SERVER['PHP_SELF'];
