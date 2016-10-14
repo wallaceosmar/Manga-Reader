@@ -1,3 +1,4 @@
+# BEGIN REWRITE
 <IfModule mod_rewrite.c>
     RewriteEngine On
     
@@ -6,3 +7,4 @@
     RewriteCond %{REQUEST_FILENAME} !-l
     RewriteRule ^(.+)$ index.php [QSA,L]
 </IfModule>
+# END REWRITE

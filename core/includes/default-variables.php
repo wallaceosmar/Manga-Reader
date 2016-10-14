@@ -24,23 +24,43 @@
  * THE SOFTWARE.
  */
 
-/**
- *
- * @global array $GLOBALS['_menu_']
- * @name $_menu_ 
- */
-$GLOBALS['_menu_'] = array();
+global $_app, $_core, $_routing, $_template, $_dispatch, $_storeCache, $_navbar_;
 
 /**
  *
- * @global Menu $GLOBALS['_menu_']
+ * @global Routing $GLOBALS['_routing']
+ * @name $_routing 
+ */
+$GLOBALS['_routing'] = new Routing();
+
+/**
+ *
+ * @global Smarty $GLOBALS['_template']
+ * @name $_template 
+ */
+$GLOBALS['_template'] = new Smarty();
+$_template->caching = true;
+$_template->cache_lifetime = defined( 'TEMPLATE_CACHE_LIFETIME' ) ? TEMPLATE_CACHE_LIFETIME : 120 ;
+$_template->cache_dir = DATA_CAHCE_PATH;
+$_template->compile_dir  = DATA_TEMPLATE_PATH;
+
+/**
+ *
+ * @global Dispatcher $GLOBALS['_dispatch']
+ * @name $_dispatch 
+ */
+$GLOBALS['_dispatch'] = new Dispatcher( $GLOBALS['_routing'] );
+
+/**
+ *
+ * @global StorageCache $GLOBALS['_storeCache']
+ * @name $_storeCache 
+ */
+$GLOBALS['_storeCache'] = new StorageCache();
+
+/**
+ *
+ * @global Menu $GLOBALS['_navbar_']
  * @name $_navbar_ 
  */
 $GLOBALS['_navbar_'] = new Menu();
-
-/**
- *
- * @global ConfigOption $GLOBALS['_config_']
- * @name $_config_ 
- */
-$GLOBALS['_config_'] = new ConfigOption();

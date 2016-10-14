@@ -33,8 +33,6 @@ class Url {
     
     /**
      * 
-     * This function need the function is_ssl in the file functions.fn.php
-     * 
      * @param string $path
      * @return string
      */
@@ -43,12 +41,11 @@ class Url {
         if ( isset($_SERVER['HTTP_HOST']) ) {
             $http = ( Url::is_ssl() || $https )? 'https' : 'http';
             $dir =  str_replace( basename( $_SERVER['SCRIPT_NAME'] ) , '', $_SERVER['SCRIPT_NAME'] );
-            $base_url = sprintf( "%s://%s%s" , $http, $_SERVER['HTTP_HOST'], $dir );
+            $base_url = sprintf( "%s://%s%s" , $http, $_SERVER['HTTP_HOST'], dirname( $dir ) . '/' );
         } else {
             $base_url = 'http://localhost/';
         }
-
-        return $base_url . ltrim( $path , '/');
+        return rtrim( $base_url, '\\/' ) . '/' . ltrim( $path , '/');
     }
     
     public static function getBaseUrl() {
@@ -73,7 +70,7 @@ class Url {
             $url = MVC_SITE;
         } else {
             $abspath_fix = str_replace( '\\', '/', ABSPATH );
-            $script_filename_dir = dirname( $_SERVER['SCRIPT_FILENAME'] );
+            $script_filename_dir = dirname( dirname( $_SERVER['SCRIPT_FILENAME'] ) );
             
             if ( $script_filename_dir . '/' == $abspath_fix ) {
                 // Strip off any file/query params in the path
@@ -101,6 +98,7 @@ class Url {
     }
     
     /**
+     * Verifica se a request é uma requisição https.
      * 
      * @return boolean
      */
@@ -121,22 +119,20 @@ class Url {
      * @return string
      */
     public static function get_base_uri() {
+        $script_name = dirname( dirname( $_SERVER['SCRIPT_NAME'] ) );
+        $request_uri = parse_url($_SERVER['REQUEST_URI'])['path'];
         
-        if ( defined('MVC_SITE_BASE_URI') && '' != MVC_SITE_BASE_URI ) {
-            $uri = MVC_SITE_BASE_URI;
+        if ( '/' == $script_name ) {
+            $uri = $request_uri;
+        } elseif ( strpos($_SERVER['REQUEST_URI'], $script_name) !== false ) {
+            $uri = str_replace( $script_name , '', $request_uri);
+        } elseif ( strpos( $_SERVER['REQUEST_URI'], strtolower( $script_name )) !== false ) {
+            $uri = str_replace( strtolower( $script_name ) , '', $request_uri);
         } else {
-            // 
-            $script_name = dirname( $_SERVER['SCRIPT_NAME'] );
-            $request_uri = parse_url($_SERVER['REQUEST_URI'])['path'];
-            if ( strpos($_SERVER['REQUEST_URI'], $script_name) !== false ) {
-                $uri = str_replace($script_name, '', $request_uri);
-            } elseif ( strpos($_SERVER['REQUEST_URI'], strtolower( $script_name )) !== false ) {
-                $uri = str_replace( strtolower( $script_name ) , '', $request_uri);
-            } else {
-                $uri = $request_uri;
-            }
+            $uri = $request_uri;
         }
-        return $uri;
+        
+        return '/' . ltrim( $uri , '/' );
     }
-
+    
 }

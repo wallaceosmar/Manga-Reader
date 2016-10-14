@@ -32,252 +32,208 @@
 class Routing {
     
     /**
-     * Variavel onde é armazenado as regras de mapeamento de url.
-     * 
-     * @var array 
+     *
+     * @var array Array contendo todas as routes.
      */
-    protected static $routing = array();
+    protected $routes = array();
     
     /**
-     * Variavel onde é armazenado as regras de mapeamento de url para execução
-     * de funçoes.
-     * 
-     * 
-     * @var array 
+     *
+     * @var string 
      */
-    protected static $mapping = array();
+    protected $basePath = '';
     
     /**
-     * 
-     * @var array 
+     *
+     * @var type 
      */
-    protected static $_router_encouter = array(
-        'plataform' => NULL,
-        'controller' => NULL,
-        'action' => 'index'
+    protected $namedRoutes = array();
+    
+    /**
+     *
+     * @var type 
+     */
+    protected $regexMatch = array(
+        'i'  => '[0-9]++',
+        'a'  => '[0-9A-Za-z]++',
+        'h'  => '[0-9A-Fa-f]++',
+        '*'  => '.+?',
+        '**' => '.++',
+        ''   => '[^/\.]++'
     );
     
     /**
-     * Entrada de encurtadores aceitos para o mapeamento e reconhecimento.
      * 
-     * @var array 
-     */
-    protected static $params = array(
-        'lang' => '[a-z]{2}', // regex url parametr <lang>
-        'controller' => '[\w-_]+',
-        'action' => '[\w-_]+',
-        'page' => '[a-z0-9_\-]{5,25}',
-        'pagination' => '[0-9]{1,2}', 
-        'year' => '[0-9]{4}',
-        'month' => '[0-9]{2}',
-        'day' => '[0-9]{1,2}',
-        'id' => '[0-9]+'
-    );
-    
-    /**
-     * Adiciona um mapeamento para a url e o methodo de acesso ao controller e ao methodo.
-     * 
-     * <code>
-     *  Routing::add('get', '/');
-     *  Routing::add('get', '/', array('action' => 'index'[, 'controller' => 'index', 'plataform' => '')] );
-     *  Routing::add(array('get','post'), '/', array('action' => 'index'[, 'controller' => 'index', 'plataform' => '')] );
-     * </code>
-     * 
-     * @param string|array $methods
-     * @param string $url
-     * @param array $cond
-     */
-    public static function add( $methods, $url, $cond = array() ) {
-        foreach ( (array) $methods as $method ) {
-            self::$routing[ strtoupper( $method ) ][ $url ] = array_merge(
-                array(
-                    'plataform' => NULL,
-                    'controller' => NULL,
-                    'action' => 'index'
-                ),
-                $cond
-            );
-        }
-    }
-    
-    /**
-     * 
-     * 
-     * @param string $url
-     * @param array $cond
-     */
-    public static function get( $url, $cond = array() ) {
-        self::add( 'GET', $url, $cond);
-    }
-    
-    /**
-     * 
-     * @param string $url
-     * @param array $cond
-     */
-    public static function post ( $url, $cond ) {
-        self::add('POST', $url, $cond);
-    }
-    
-    /**
-     * Mapeamento de url para execuxão de uma função.
-     * 
-     * @param string $url
-     * @param function $function
-     */
-    public static function map( $url, $function ) {
-        self::$mapping[ $url ] = $function;
-    } 
-    
-    /**
-     * Função para verificar se o a uri passada corresponde a uma das uri mapeadas.
-     * 
-     * @param type $uri
-     * @return boolean
-     */
-    public static function find ( $uri ) {
-        if ( ! empty( $uri ) && isset ( self::$routing[ $_SERVER['REQUEST_METHOD'] ] ) ) {
-            // Mapeia a a uri e verifica se existe uma função a ser executada.
-            foreach ( self::$mapping as $urlMapping => $mappingFunction ) {
-                $urlMapping = preg_replace_callback(
-                    "/\<(?<key>[0-9a-z_]+)\>/",
-                    'self::__call_replace',
-                    str_replace( ")", ")?" , $urlMapping )
-                );
-                if ( preg_match ( "#^{$urlMapping}$#" , $uri ) ) {
-                    call_user_func( $mappingFunction );
-                    break;
-                }
-                continue;
-            }
-            // Inicia o mapeamento dos controllers, metodos e parametros.
-            foreach ( self::$routing[ $_SERVER['REQUEST_METHOD'] ] as $url => $value ) {
-                $url = preg_replace_callback(
-                    "/\<(?<key>[0-9a-z_]+)\>/",
-                    'self::__call_replace',
-                    str_replace( ")", ")?" , $url )
-                );
-                if ( preg_match ( "#^{$url}$#" , $uri , $matches ) ) {
-                    self::$_router_encouter = array_merge( $value, $matches );
-                    return TRUE;
-                }
-            }
-        }
-        return FALSE;
-    }
-    
-    /**
-     * 
-     * 
-     * @param type $uri
-     * @throws Exception
-     */
-    public static function dispath( $uri = '/' ) {
-        // Procura se a uri passada foi mapeada.
-        if ( '' == $uri ) {
-            throw new Exception('O Parametro não pode ser vazio');
-        }
-        self::find($uri);
-        
-        foreach( self::$_router_encouter as $key => $value ) {
-            if ( is_integer( $key ) ) {
-                continue;
-            }
-            switch( $key ) {
-                case 'controller':
-                    $controllerName = str_replace( '-', '_', $value);
-                    define( 'CONTROLLER', $controllerName );
-                    break;
-                case 'action':
-                    $methodName = str_replace( '-', '_', $value);
-                    define( 'ACTION', $methodName );
-                    break;
-                case 'plataform':
-                    $plataform = self::$_router_encouter['plataform'];
-                    break;
-                default :
-                    if ( isset ( $_REQUEST[ $key ] ) ) {
-                        $_REQUEST["_{$key}_"] = $value;
-                    } else {
-                        $_REQUEST[ $key ] = $value;
-                    }
-                    
-            }
-        }
-        
-        define( 'PLATAFORM', $plataform );
-        define( 'CURR_CONTROLLER_PATH', APP_CONTROLLER_PATH . ( is_null ( $plataform ) ? "" : "{$plataform}" . DS ) );
-        define( 'CURR_VIEW_PATH', APP_VIEWS_PATH . ( is_null ( $plataform ) ? "" : "{$plataform}" . DS ) );
-        
-        if ( file_exists( CURR_CONTROLLER_PATH . "class.{$controllerName}Controller.php" ) ) {
-            require_once ( CURR_CONTROLLER_PATH . "class.{$controllerName}Controller.php" );
-        } else {
-            $controllerName = '';
-        }
-        
-        $controllerName = "{$controllerName}Controller";
-        
-        try {
-            // Construir a classe controller
-            $dispatch = new $controllerName();
-            // 
-            $methodName = $methodName . '_' . strtolower($_SERVER['REQUEST_METHOD']);
-            // Se o metodo não existir
-            if ( ! method_exists( $controllerName, $methodName ) ) {
-                $methodName = '_404';
-            }
-            // we need to reference the parameters to a correct order in order to match the arguments order 
-            // of the calling function
-            $reflectionController = new ReflectionClass($controllerName);
-            // 
-            $reflectionFunction = $reflectionController->getMethod($methodName);
-            // 
-            $reflectionParameters = $reflectionFunction->getParameters();
-            // 
-            $params_new = array();
-            $params_old = $_REQUEST;
-            // re-map the parameters
-            for( $i = 0; $i < count( $reflectionParameters ); $i++ ) {
-                $key = $reflectionParameters[$i]->getName();
-                if( array_key_exists( $key, $params_old ) ){
-                    $params_new[$i] = $params_old[$key];
-                    unset( $params_old[$key] );
-                } else {
-                    $params_new[$i] = null;
-                }
-            }
-            // after reorder, merge the leftovers
-            $params_new = array_merge($params_new, $params_old);
-            // call the action method
-            call_user_func_array(
-                array( $dispatch, $methodName),
-                $params_new
-            );
-        } catch ( ReflectionException $ex ){
-            Error::show($ex->getCode(), $ex->getMessage(),array('title'=>'Error on ReflectionClass!'));
-        } catch (Exception $ex) {
-            Error::show($ex->getCode(), $ex->getMessage());
-        }
-        exit;
-    }
-    
-    public static function has_routing() {
-        if ( isset ( self::$routing ) && count( self::$routing ) > 0 ) {
-            return TRUE;
-        }
-        return FALSE;
-    }
-    
-    /**
-     * 
-     * @param type $matches
      * @return type
      */
-    private static function __call_replace ( $matches ) {
-        if( isset( self::$params[ $matches['key'] ] ) ) { 
-            return "(?<" . $matches['key'] . ">". self::$params[ $matches['key'] ] . ")"; 
+    public function getRoutes() {
+        return $this->routes;
+    }
+    
+    /**
+     * Seta um base path
+     * 
+     * @param string $basePath
+     */
+    public function setbasePath ( $basePath ) {
+        $this->basePath = $basePath;
+    }
+    
+    /**
+     * 
+     * @param type $method
+     * @param type $route
+     * @param type $target
+     * @param type $name
+     * @return type
+     * @throws Exception
+     */
+    public function map ( $method, $route, $target, $name = null ) {
+        if ( is_array( $target ) ) {
+            $target = array_merge(array(
+                'controller' => NULL,
+                'action' => 'index'
+            ), $target);
         }
-        return "(?<" . $matches['key'] . ">" . "([^/]+)" . ")";
+        $this->routes[] = array( $method, $route, $target, $name);
+        if ( $name ) {
+            if ( isset ( $this->namedRoutes[$name] ) ) {
+                throw new Exception("Can not redeclare route '{$name}'");
+            } else {
+                $this->namedRoutes[$name] = $route;
+            }
+        }
+        return;
+    }
+    
+    /**
+     * 
+     * @param type $routeName
+     * @param type $params
+     * @return type
+     * @throws Exception
+     */
+    public function generate( $routeName, $params = array() ) {
+        // Check if named route exists
+        if(!isset($this->namedRoutes[$routeName])) {
+            throw new Exception("Route '{$routeName}' does not exist.");
+        }
+        // Replace named parameters
+        $route = $this->namedRoutes[$routeName];
+        // prepend base path to route url again
+        $url = $this->basePath . $route;
+        if (preg_match_all('`(/|\.|)\[([^:\]]*+)(?::([^:\]]*+))?\](\?|)`', $route, $matches, PREG_SET_ORDER)) {
+            foreach($matches as $match) {
+                list($block, $pre, $type, $param, $optional) = $match;
+                if ($pre) {
+                    $block = substr($block, 1);
+                }
+                if(isset($params[$param])) {
+                    $url = str_replace($block, $params[$param], $url);
+                } elseif ($optional) {
+                    $url = str_replace($pre . $block, '', $url);
+                }
+            }
+        }
+        return $url;
+    }
+    
+    /**
+     * 
+     * @param type $requestUrl
+     * @param type $requestMethod
+     * @return boolean
+     */
+    public function match($requestUrl = null, $requestMethod = null) {
+        $params = array();
+        $match = false;
+        // set Request Url if it isn't passed as parameter
+        if($requestUrl === null) {
+            $requestUrl = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
+        }
+        // strip base path from request url
+        $requestUrl = substr($requestUrl, strlen($this->basePath));
+        
+        // Strip query string (?a=b) from Request Url
+        if (($strpos = strpos($requestUrl, '?')) !== false) {
+            $requestUrl = substr($requestUrl, 0, $strpos);
+        }
+        // set Request Method if it isn't passed as a parameter
+        if($requestMethod === null) {
+            $requestMethod = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
+        }
+        foreach($this->routes as $handler) {
+            list($methods, $route, $target, $name) = $handler;
+            
+            $method_match = (stripos($methods, $requestMethod) !== false);
+            
+            // Method did not match, continue to next route.
+            if (!$method_match) continue;
+            
+            if ($route === '*') {
+                // * wildcard (matches all)
+                $match = true;
+            } elseif (isset($route[0]) && $route[0] === '@') {
+                // @ regex delimiter
+                $pattern = '`' . substr($route, 1) . '`u';
+                $match = preg_match($pattern, $requestUrl, $params) === 1;
+            } elseif (($position = strpos($route, '[')) === false) {
+                // No params in url, do string comparison
+                $match = strcmp($requestUrl, $route) === 0;
+            } else {
+                // Compare longest non-param string with url
+                if (strncmp($requestUrl, $route, $position) !== 0) {
+                    continue;
+                }
+                $regex = $this->compileRoute($route);
+                $match = preg_match($regex, $requestUrl, $params) === 1;
+            }
+            
+            if ($match) {
+                if ($params) {
+                    foreach($params as $key => $value) {
+                        if( is_numeric($key) ) unset($params[$key]);
+                    }
+                }
+                return array(
+                    'target' => $target,
+                    'params' => $params,
+                    'name' => $name,
+                    'request' => $requestMethod
+                );
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * 
+     * @param type $route
+     * @return type
+     */
+    private function compileRoute($route) {
+        if (preg_match_all('`(/|\.|)\[([^:\]]*+)(?::([^:\]]*+))?\](\?|)`', $route, $matches, PREG_SET_ORDER)) {
+            $matchTypes = $this->regexMatch;
+            foreach($matches as $match) {
+                list($block, $pre, $type, $param, $optional) = $match;
+                if (isset($matchTypes[$type])) {
+                    $type = $matchTypes[$type];
+                }
+                if ($pre === '.') {
+                    $pre = '\.';
+                }
+                //Older versions of PCRE require the 'P' in (?P<named>)
+                $pattern = '(?:'
+                        . ($pre !== '' ? $pre : null)
+                        . '('
+                        . ($param !== '' ? "?P<$param>" : null)
+                        . $type
+                        . '))'
+                        . ($optional !== '' ? '?' : null);
+                $route = str_replace($block, $pattern, $route);
+            }
+        }
+	return "`^$route$`u";
     }
     
 }

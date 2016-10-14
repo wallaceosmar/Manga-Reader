@@ -8,7 +8,7 @@
  */
 
 if ( typeof jQuery === 'undefined' ) {
-    throw new Error("AdminLTE requires jQuery");
+    throw new Error("MangaReader requires jQuery");
 }
 
 /**

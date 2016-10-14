@@ -31,24 +31,37 @@
  */
 class Controller {
     
+    /**
+     *
+     * @var Smarty 
+     */
+    public $template;
+    
+    /**
+     *
+     * @var arraay 
+     */
     public $model;
     
-    public $variables = array();
+    /**
+     *
+     * @var  MVCdatabase
+     */
+    public $db;
     
+    /**
+     * 
+     */
     public function __construct() {
-        $this->model = new ModelLoad();
-        $this->request = new RequestLoad();
-        if ( function_exists( 'get_option' ) && ! empty ( $title = get_option('app_title') ) ) {
-            $this->variables['title'] = $title;
-        }
+        
+        $this->template = get_instance('template');
+        
+        $this->db = new MVCdatabase();
+        
+        $this->model = new LoadModel( $this->db );
     }
     
     public function _404() {
-        try {
-            Load::view('_share::404');
-        } catch (LoadException $ex) {
-            echo "<h1>404 Not Found</h2>";
-        }
+        $this->template->display('_share/404.tpl');
     }
-    
 }

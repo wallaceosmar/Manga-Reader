@@ -24,24 +24,31 @@
  * THE SOFTWARE.
  */
 
-// Default constants
-define( 'CORE_PATH', ABSPATH . 'core' . DS );
-define( 'APP_PATH', ABSPATH . 'application' . DS );
-define( 'PUBLIC_PATH', ABSPATH . 'public' . DS );
-
-// Core default constants
-define( 'CORE_ABSTRACT_PATH', CORE_PATH . 'abstracts' . DS );
-define( 'CORE_CLASS_PATH', CORE_PATH . 'class' . DS );
-define( 'CORE_FUNCTION_PATH', CORE_PATH . 'function' . DS );
+/*
+ * 
+ */
+define( 'CORE_PATH' , ABSPATH . 'core' . DS );
 define( 'CORE_INCLUDES_PATH', CORE_PATH . 'includes' . DS );
-define( 'CORE_INTERFACE_PATH', CORE_PATH . 'interfaces' . DS );
-define( 'CORE_LIBRARY_PATH', CORE_PATH . 'libs' . DS );
+define( 'CORE_FUNCTIONS_PATH', CORE_PATH . 'functions' . DS );
+define( 'CORE_CLASS_PATH', CORE_PATH . 'class' . DS );
+define( 'CORE_TRAIT_PATH', CORE_PATH . 'trait' . DS );
 
-// Application default constants
-define( 'APP_ABSTRACT_PATH', APP_PATH . 'abstracts' . DS );
-define( 'APP_CONFIG_PATH', APP_PATH . 'config' . DS );
-define( 'APP_CONTROLLER_PATH', APP_PATH . 'controller' . DS );
-define( 'APP_ENTITY_PATH', APP_PATH . 'entity' . DS );
-define( 'APP_FUNCTION_PATH', APP_PATH . 'function' . DS );
+/*
+ * 
+ */
+define( 'APP_PATH', ABSPATH . 'application' . DS );
+define( 'APP_CONFIG_PATH', APP_PATH . 'configs' . DS );
+define( 'APP_CONTROLLER_PATH', APP_PATH . 'controllers' . DS );
 define( 'APP_MODELS_PATH', APP_PATH . 'models' . DS );
 define( 'APP_VIEWS_PATH', APP_PATH . 'views' . DS );
+define( 'APP_ENTITY_PATH', APP_PATH . 'entity' . DS );
+
+/*
+ * 
+ */
+define( 'DATA_PATH', ABSPATH . 'data' . DS );
+define( 'DATA_CAHCE_PATH', DATA_PATH . 'cache' . DS );
+define( 'DATA_LOCALE_PATH', DATA_PATH . 'locales' . DS );
+define( 'DATA_TEMPLATE_PATH', DATA_PATH . 'template' . DS );
+define( 'DATA_LOGS_PATH', DATA_PATH . 'logs' . DS );
+define( 'DATA_UPLOADS_PATH', DATA_PATH . 'uploads' . DS );

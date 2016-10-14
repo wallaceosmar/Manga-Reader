@@ -46,60 +46,54 @@ ul.list-unstyled li {
     margin-top: 40px;
     border-top: 1px solid #eee;
     li {
-        
+        margin-right: 1.5em;
+        margin-bottom: 1.5em;
     }
 }
 
-footer li {
-    margin-right: 1.5em;
-    margin-bottom: 1.5em;
-}
-
-.manga-list li {
-    width: 290px;
-    letter-spacing: 0;
-    vertical-align: top;
-    display: inline;
-    zoom: 1;
-    margin: 0 8px 10px 0;
-    float: left;
-}
-
-.manga-list li .manga-list-img {
-    position: relative;
-    float: left;
-    border: 1px #e5e5e5 solid;
-    width: 100px;
-    height: 124px;
-    margin-right: 10px;
-    padding: 1px;
-}
-
-.manga-list li .manga-list-img img {
-    width: 100px;
-    max-height: 124px;
-}
-
-.manga-list li .manga-list-text {
-    float: left;
-    width: 176px;
-    overflow: hidden;
-}
-
-.manga-list li .manga-list-text p {
-    clear: left;
-}
-
-.manga-list li .manga-list-text p.info {
-    font-size: 11px;
-    line-height: 16px;
-}
-
-.manga-list li .manga-list-text a.title {
-    float: left;
-    font-size: 14px;
-    font-weight: 700;
-    display: block;
+.manga-list {
+    li {
+        width: 290px;
+        letter-spacing: 0;
+        vertical-align: top;
+        display: inline;
+        zoom: 1;
+        margin: 0 8px 10px 0;
+        float: left;
+        .manga-list-img {
+            position: relative;
+            float: left;
+            border: 1px #e5e5e5 solid;
+            width: 100px;
+            height: 124px;
+            margin-right: 10px;
+            padding: 1px;
+            img {
+                width: 100px;
+                max-height: 124px;
+            }
+        }
+        .manga-list-text {
+            float: left;
+            width: 176px;
+            overflow: hidden;
+            p {
+                clear: left;
+                .info {
+                    font-size: 11px;
+                    line-height: 16px;
+                }
+            }
+            a {
+                .title {
+                    float: left;
+                    font-size: 14px;
+                    font-weight: 700;
+                    display: block;
+                }
+            }
+        }
+    }
 }
 
 .no-resize {
