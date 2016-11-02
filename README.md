@@ -3,6 +3,9 @@ Manga-Reader é um projeto de criação de um leitor de mangas online open-sourc
 
 Nota: O projeto ainda está na versão alpha e varias das suas funcionalidades ainda não foram implementadas.
 
+## Demo
+- Para visualizar o demo do projeto basta [clicar aqui](http://demo-mangareader.esy.es/).
+
 ## Requerimento
 - [PHP](http://php.net) 5.5 ou superior
 - [PDO](http://php.net/manual/en/book.pdo.php) driver
