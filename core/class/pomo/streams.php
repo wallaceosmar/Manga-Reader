@@ -24,11 +24,3 @@
  * THE SOFTWARE.
  */
 
-// Images
-routing_get('/image/compressed/[:slugname]/cover.jpg', 'Image@cover', 'image-cover');
-// The pages
-routing_get('/manga/[:slugname]/[:chapter]/[:pagenumber]?', 'manga@read', 'manga-reader');
-routing_get('/manga/[:slugname]', 'manga@index', 'manga-info');
-routing_get('/[:controller]/[:action]/[s:filter]?/[s*:name]?/[i:pagination]?', '*@*', 'manga-filter');
-routing_map('GET|POST','/[:action]', 'index@*');
-routing_get('/', 'index@index');

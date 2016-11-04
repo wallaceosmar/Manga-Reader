@@ -3,7 +3,7 @@
 /* 
  * The MIT License
  *
- * Copyright 2016 Avell G1511 MAX.
+ * Copyright 2016 Wallace Osmar https://github.com/wallaceosmar.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,10 +24,31 @@
  * THE SOFTWARE.
  */
 
+/**
+ * @package Core\Functions\Url
+ */
+
+require_once ( CORE_CLASS_PATH . 'class.Url.php' );
+
+/**
+ * Return the url
+ * 
+ * @param string $path
+ * @param boolean $https
+ * @return string
+ */
 function base_url ($path, $https = false) {
-    return Url::base_url($path, $https);
+    return Url::base_url($path, (bool) $https);
 }
 
+/**
+ * Return the url of the content url
+ * 
+ * @global array $CFG
+ * @param string $path
+ * @param boolean $https
+ * @return string
+ */
 function content_base_url ( $path = '/', $https = false ) {
     global $CFG;
     
@@ -37,10 +58,31 @@ function content_base_url ( $path = '/', $https = false ) {
     return unparse_url( $url_parsed );
 }
 
+/**
+ * 
+ * @param string $path
+ * @param boolean $https
+ * @return string
+ */
 function admin_base_url ( $path = '/', $https = false ) {
-    return Url::base_url( '/admin/' . ltrim( $path, '/' ) , $https);
+    return Url::base_url( '/mvc-admin/' . ltrim( $path, '/' ) , $https);
 }
 
+/**
+ * 
+ * @param string $path
+ * @param boolean $https
+ * @return string
+ */
+function admin_content_url ( $path = '/', $https = false ) {
+    return Url::base_url($path, (boolean) $https);
+}
+
+/**
+ * 
+ * @param array $parsed_url
+ * @return string
+ */
 function unparse_url($parsed_url) { 
     $scheme   = isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : ''; 
     $host     = isset($parsed_url['host']) ? $parsed_url['host'] : ''; 

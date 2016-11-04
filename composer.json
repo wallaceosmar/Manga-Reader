@@ -2,7 +2,7 @@
     "name": "mangareader/mangareader",
     "type": "application",
     "description": "MangaReader é um leitor de manga online",
-    "keywords": ["manga","reader","php"],
+    "keywords": ["manga","reader","php","online"],
     "licence": "MIT",
     "authors": [
         {

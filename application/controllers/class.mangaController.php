@@ -32,11 +32,13 @@
 class mangaController extends Controller {
     
     public function index_any ( $slugname ) {
-        $this->template->cache_lifetime = 600;
+        $this->template->cache_lifetime = 0;
         if ( ! $this->template->isCached('manga/index.tpl', $slugname) ) {
-            if ( is_null ( $mangaInfo = caching_get('mangaController-index-' . $slugname) ) ) {
-                $mangaInfo = $this->model->Manga->selectBySlug( $slugname );
-                caching_set('mangaController-index', $mangaInfo);
+            if ( is_null ( $mangaInfo = caching_get('manga-info-' . $slugname) ) ) {
+                if( ! ( $mangaInfo = $this->model->Manga->select( $slugname ) ) ) {
+                    return $this->_404();
+                }
+                caching_set('manga-info-' . $slugname, $mangaInfo);
             }
             $this->template->assign('manga', $mangaInfo);
         }

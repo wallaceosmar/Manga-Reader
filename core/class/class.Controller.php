@@ -26,7 +26,8 @@
 
 /**
  * Description of Controller
- *
+ * 
+ * @package Core\Class
  * @author Wallace Osmar <wallace.osmar@r7.com>
  */
 class Controller {
@@ -53,15 +54,17 @@ class Controller {
      * 
      */
     public function __construct() {
+        global $_mvcdatabase;
         
         $this->template = get_instance('template');
         
-        $this->db = new MVCdatabase();
+        $this->db = &$_mvcdatabase;
         
         $this->model = new LoadModel( $this->db );
     }
     
     public function _404() {
         $this->template->display('_share/404.tpl');
+        return;
     }
 }

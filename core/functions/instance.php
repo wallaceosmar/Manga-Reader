@@ -24,11 +24,35 @@
  * THE SOFTWARE.
  */
 
+/**
+ * @package Core\Functions\Instance
+ */
 
+/**
+ * 
+ * @global array $GLOBALS
+ * @param string $name
+ * @return mixed
+ */
 function get_instance( $name ) {
     global $GLOBALS;
     
     if ( isset ( $GLOBALS['_' . $name ] ) ) {
         return $GLOBALS['_' . $name ];
     }
+}
+
+/**
+ * 
+ * @global array $GLOBALS
+ * @param string $name
+ * @param string $object
+ * @return mixed
+ */
+function set_instance ( $name, &$object ) {
+    global $GLOBALS;
+    
+    $GLOBALS['_' . $name] = $object;
+    
+    return $GLOBALS['_' . $name ];
 }

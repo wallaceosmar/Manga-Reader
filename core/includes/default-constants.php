@@ -24,6 +24,10 @@
  * THE SOFTWARE.
  */
 
+/**
+ * @package Core\Includes
+ */
+
 /*
  * 
  */

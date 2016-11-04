@@ -26,7 +26,8 @@
 
 /**
  * Description of Dispatcher
- *
+ * 
+ * @package Core\Class
  * @author Wallace Osmar <wallace.osmar@r7.com>
  */
 class Dispatcher {
@@ -107,7 +108,7 @@ class Dispatcher {
             // Set the name of controller
             $controllerName = "{$controllerName}Controller";
             // Set the name of action
-            $methodName = $this->matches['target']['action'];
+            $methodName = str_replace( '-', '', $this->matches['target']['action'] );
             try {
                 // Construir a classe controller
                 $dispatch = new $controllerName();

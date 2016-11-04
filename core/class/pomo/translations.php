@@ -1,6 +1,6 @@
 <?php
 
-/*
+/* 
  * The MIT License
  *
  * Copyright 2016 Wallace Osmar https://github.com/wallaceosmar.
@@ -24,33 +24,66 @@
  * THE SOFTWARE.
  */
 
-/**
- * Description of Model
- *
- * @author Wallace Osmar <wallace.osmar@r7.com>
- * @package Core\Class
- */
-class Model {
-    
+require_once ( dirname( __FILE__ ) . DS . 'entry.php' );
+
+if ( !class_exists( 'Translation', false ) ) {
     /**
-     *
-     * @var MVCdatabase 
-     */
-    public $db;
-    
-    /**
-     *
-     * @var Controller|mixed 
-     */
-    public $controller;
-    
-    /**
-     * Classe construtor
      * 
-     * @param type $db
      */
-    public function __construct( $db ) {
-        $this->db = $db;
+    class Translation {
+        
+        /**
+         *
+         * @var array 
+         */
+        var $entries = array();
+        
+        /**
+         *
+         * @var array 
+         */
+        var $headers = array();
+        
     }
     
+}
+
+if ( ! class_exists( 'Gettext_Translations', false ) ) {
+    /**
+     * 
+     */
+    class Gettext_Translations extends Translation {
+        
+        public function translate($singular, $context=null) {
+            return $singular;
+        }
+        
+    }
+}
+
+if ( ! class_exists( 'NO_Translations', false ) ) {
+    /**
+     * 
+     */
+    class NO_Translations {
+        
+        /**
+         * @param string $singular
+         * @param string $context
+         */
+        public function translate($singular, $context=null) {
+            return $singular;
+        }
+        
+        /**
+         * @param string $singular
+         * @param string $plural
+         * @param int    $count
+         * @param string $context
+         */
+        public function translate_plural($singular, $plural, $count, $context = null) {
+            return 1 == $count? $singular : $plural;
+        }
+        
+    }
 }

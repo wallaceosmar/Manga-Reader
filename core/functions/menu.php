@@ -1,4 +1,4 @@
-<?php
+<?php if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /* 
  * The MIT License
@@ -25,7 +25,15 @@
  */
 
 /**
- * -
+ * @package Core\Functions\Navigation
+ */
+
+global $_navbar_;
+
+require_once ( CORE_CLASS_PATH . 'class.Menu.php' );
+
+/**
+ * 
  * @global Menu $_navbar_
  * @param string $title
  * @param array $options

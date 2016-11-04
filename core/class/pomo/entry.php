@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2016 Wallace Osmar https://github.com/wallaceosmar.
@@ -24,11 +24,37 @@
  * THE SOFTWARE.
  */
 
-// Images
-routing_get('/image/compressed/[:slugname]/cover.jpg', 'Image@cover', 'image-cover');
-// The pages
-routing_get('/manga/[:slugname]/[:chapter]/[:pagenumber]?', 'manga@read', 'manga-reader');
-routing_get('/manga/[:slugname]', 'manga@index', 'manga-info');
-routing_get('/[:controller]/[:action]/[s:filter]?/[s*:name]?/[i:pagination]?', '*@*', 'manga-filter');
-routing_map('GET|POST','/[:action]', 'index@*');
-routing_get('/', 'index@index');
+if ( ! class_exists( 'Translation_Entry' ) ) {
+    /**
+     * Description of entry
+     *
+     * @author Wallace Osmar <wallace.osmar@r7.com>
+     */
+    class Translation_Entry {
+        
+        var $is_plural = false;
+        
+        var $data = array();
+        
+        public function __construct( $args = array() ) {
+            if ( ! is_array( $args ) || ! isset ( $args ) ) {
+                return;
+            }
+            
+            foreach ( $args as $key => $value ) {
+                if (is_numeric( $key ) ) {
+                    continue;
+                }
+                
+                $this->data[ $key ] = $value;
+            }
+            
+            $this->is_plural = (bool) ( isset($args['plural']) && $args['plural'] );
+        }
+        
+        public function __destruct() {
+            unset( $this );
+        }
+    }
+    
+}

@@ -24,6 +24,8 @@
  * THE SOFTWARE.
  */
 
+require_once ( CORE_CLASS_PATH . 'class.MenuElement.php' );
+
 /**
  * Description of Menu
  *

@@ -26,45 +26,53 @@
 
 /**
  * Description of MVCdatabase
- *
+ * 
+ * @version 0.2
+ * 
  * @author Wallace Osmar <wallace.osmar@r7.com>
+ * @package Core\Class
  */
 class MVCdatabase {
     
     /**
      * Host da base de dados 
-     * @var type 
+     * 
+     * @var string 
      */
     public $host = 'localhost';
     
     /**
      * Nome do banco de dados
-     * @var type 
+     * 
+     * @var string 
      */
     public $db_name = 'manga-reader';
     
     /**
      * Senha do usuário da base de dados
-     * @var type 
+     * 
+     * @var string 
      */
     public $password = 'mangareader';
     
     /**
      * Usuário da base de dados
-     * @var type 
+     * 
+     * @var string 
      */
     public $user = 'MangaReader';
     
     /**
      * Charset da base de dados
-     * @var type 
+     * 
+     * @var string 
      */
     public $charset = 'utf8';
     
     /**
      * Nossa conexão com o BD
      * 
-     * @var type 
+     * @var PDO 
      */
     public $pdo = null;
     
@@ -85,12 +93,13 @@ class MVCdatabase {
     /**
      * Último ID inserido
      * 
-     * @var type 
+     * @var string 
      */
     public $last_id = null;
     
     /**
-     *
+     * Prefixo da tabela do banco de dados
+     * 
      * @var string 
      */
     public $prefix = 'mr_';
@@ -135,15 +144,6 @@ class MVCdatabase {
     
     /**
      * 
-     * @param string $statement
-     * @param mixed $driver_options
-     * @return PDOStatement
-     */
-    public function prepare ( $statement, array $driver_options = array() ) {
-        return $this->pdo->prepare($statement, $driver_options);
-    }
-    
-    /**
      * 
      * @param string $stmt
      * @param array $data_array

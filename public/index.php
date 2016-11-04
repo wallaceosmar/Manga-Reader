@@ -25,6 +25,10 @@
  */
 
 /**
+ * @package Public
+ */
+
+/**
  * 
  */
 define('APPLICATION_ENV', 'development');
@@ -54,7 +58,9 @@ define('DS', DIRECTORY_SEPARATOR);
 define('ABSPATH', dirname ( dirname( __FILE__ ) ) . DS);
 
 try {
+    
     require_once ( ABSPATH . DS . 'core' . DS . 'init.php' );
+    
 } catch (Exception $ex) {
     // class exception (non user)
     echo '<h2>Exception</h2>' .

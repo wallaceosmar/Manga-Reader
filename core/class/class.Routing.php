@@ -28,43 +28,53 @@
  * Description of Routing
  *
  * @author Wallace Osmar <wallace.osmar@r7.com>
+ * @package Core\Class
  */
 class Routing {
     
     /**
-     *
-     * @var array Array contendo todas as routes.
+     * Array contendo todas as routes.
+     * 
+     * @var array
      */
     protected $routes = array();
     
     /**
-     *
+     * 
+     * 
      * @var string 
      */
     protected $basePath = '';
     
     /**
-     *
-     * @var type 
+     * Armazena o nome das rotas adicionadas para serem usadas para o metodo generate
+     * 
+     * @see generate
+     * @var array 
      */
     protected $namedRoutes = array();
     
     /**
-     *
-     * @var type 
+     * Expressoes regulares a serem verificadas.
+     * 
+     * @var array 
      */
     protected $regexMatch = array(
+        'f'  => '[0-9\.]++',
         'i'  => '[0-9]++',
         'a'  => '[0-9A-Za-z]++',
+        's'  => '[A-Za-z]++',
+        's*'  => '[A-Za-z+-]++',
         'h'  => '[0-9A-Fa-f]++',
         '*'  => '.+?',
         '**' => '.++',
-        ''   => '[^/\.]++'
+        ''   => '[^/\.]++',
     );
     
     /**
+     * Retorna todas as rotas adicionadas.
      * 
-     * @return type
+     * @return array
      */
     public function getRoutes() {
         return $this->routes;
@@ -80,10 +90,11 @@ class Routing {
     }
     
     /**
+     * Adiciona uma rota para ser verificada.
      * 
-     * @param type $method
-     * @param type $route
-     * @param type $target
+     * @param string $method Metodo de acesso para essa url
+     * @param string $route Url a ser adicionada a lista de mapeamento.
+     * @param string|callback|array $target
      * @param type $name
      * @return type
      * @throws Exception
@@ -107,10 +118,11 @@ class Routing {
     }
     
     /**
+     * Pega um parametro e subsitui na url selecionada
      * 
-     * @param type $routeName
-     * @param type $params
-     * @return type
+     * @param string $routeName Nome da url
+     * @param array $params Array contendo o nome e o valor a ser substituido
+     * @return string Retorna a url montada com os novos valores
      * @throws Exception
      */
     public function generate( $routeName, $params = array() ) {
@@ -139,10 +151,23 @@ class Routing {
     }
     
     /**
+     * Compara a url requisitada e verifica se ela existe na lista de rotas
      * 
-     * @param type $requestUrl
-     * @param type $requestMethod
-     * @return boolean
+     * <h2>Example</h2>
+     * <code>
+     * $routes = new Routing();
+     * 
+     * $routes->match();
+     * 
+     * $routes->match('/example');
+     * 
+     * $routes->match('/example', 'GET');
+     * 
+     * </code>
+     * 
+     * @param string $requestUrl
+     * @param string $requestMethod
+     * @return boolean|array
      */
     public function match($requestUrl = null, $requestMethod = null) {
         $params = array();
@@ -208,8 +233,8 @@ class Routing {
     
     /**
      * 
-     * @param type $route
-     * @return type
+     * @param string $route
+     * @return string
      */
     private function compileRoute($route) {
         if (preg_match_all('`(/|\.|)\[([^:\]]*+)(?::([^:\]]*+))?\](\?|)`', $route, $matches, PREG_SET_ORDER)) {

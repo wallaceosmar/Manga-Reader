@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2016 Wallace Osmar https://github.com/wallaceosmar.
@@ -24,11 +24,17 @@
  * THE SOFTWARE.
  */
 
-// Images
-routing_get('/image/compressed/[:slugname]/cover.jpg', 'Image@cover', 'image-cover');
-// The pages
-routing_get('/manga/[:slugname]/[:chapter]/[:pagenumber]?', 'manga@read', 'manga-reader');
-routing_get('/manga/[:slugname]', 'manga@index', 'manga-info');
-routing_get('/[:controller]/[:action]/[s:filter]?/[s*:name]?/[i:pagination]?', '*@*', 'manga-filter');
-routing_map('GET|POST','/[:action]', 'index@*');
-routing_get('/', 'index@index');
+require_once dirname(__FILE__) . '/translations.php';
+require_once dirname(__FILE__) . '/streams.php';
+
+if ( ! class_exists ( 'MO' ) ) {
+    
+    Class MO extends Gettext_Translations {
+        
+        public function import_from_file ( $filename ) {
+            
+        }
+        
+    }
+    
+}

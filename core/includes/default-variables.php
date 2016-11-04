@@ -24,6 +24,13 @@
  * THE SOFTWARE.
  */
 
+/**
+ * @package Core\Includes
+ */
+
+/**
+ * 
+ */
 global $_app, $_core, $_routing, $_template, $_dispatch, $_storeCache, $_navbar_;
 
 /**

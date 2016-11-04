@@ -28,6 +28,7 @@
  * Description of StorageCache
  *
  * @author Avell G1511 MAX
+ * @package Core\Class
  */
 class StorageCache {
     

@@ -56,5 +56,8 @@ if ( file_exists( APP_CONFIG_PATH . 'routing.php' ) ) {
     require_once ( APP_CONFIG_PATH . 'routing.php' );
 }
 
+// Inicia a conecção com o banco de dados
+start_database_connection();
+
 // Start
 $_dispatch->run();

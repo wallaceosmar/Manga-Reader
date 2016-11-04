@@ -25,6 +25,10 @@
  */
 
 //
+define('UPLOAD_COVER', DATA_UPLOADS_PATH . 'cover' . DS );
+define('UPLOAD_MANGA', DATA_UPLOADS_PATH . 'manga' . DS );
+
+//
 add_menu('navbar-right', sprintf( '<i class="fa fa-sign-in"></i>  %s' , __('Login')), base_url('/login'));
 add_menu('navbar-right', sprintf( '<i class="fa fa-user"></i>  %s', __('Registrar-se')), base_url('/register'));
 

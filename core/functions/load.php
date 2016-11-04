@@ -25,6 +25,10 @@
  */
 
 /**
+ * @package Core\Functions\Load
+ */
+
+/**
  * Load the default constants.
  * 
  * @since 0.1
@@ -92,7 +96,38 @@ function load_group_functions ( $load_name ) {
  */
 function load_tranlation_early() {
     
-    require_once ( CORE_FUNCTIONS_PATH . 'i18n.php' );
+    static $loaded = false;
+    if ( $loaded ) {
+        return;
+    }
+    $loaded = true;
+    
+    require_once ( CORE_CLASS_PATH . 'pomo' . DS . 'mo.php' );
+    require_once ( CORE_FUNCTIONS_PATH . 'l10n.php' );
     
     
+}
+
+function start_database_connection() {
+    global $_mvcdatabase;
+    
+    // 
+    static $loaded = false;
+    if ( $loaded ) {
+        return;
+    }
+    $loaded = true;
+    
+    // 
+    if ( file_exists ( $filename = APP_CONFIG_PATH . 'db.php' ) ) {
+        require ( $filename );
+    }
+    
+    try {
+        
+        $_mvcdatabase = new MVCdatabase();
+        
+    } catch (Exception $ex) {
+        throw new Exception( __('A aplicação precisa de uma conecção com o banco de dados.') );
+    }
 }

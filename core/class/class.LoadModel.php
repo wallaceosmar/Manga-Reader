@@ -26,7 +26,8 @@
 
 /**
  * Description of LoadModel
- *
+ * 
+ * @package Core\Class
  * @author Wallace Osmar <wallace.osmar@r7.com>
  */
 class LoadModel {

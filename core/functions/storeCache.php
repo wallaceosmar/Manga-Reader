@@ -25,6 +25,10 @@
  */
 
 /**
+ * @package Core\Functions\Cache
+ */
+
+/**
  * 
  * @global StorageCache $_storeCache
  * @param string $name

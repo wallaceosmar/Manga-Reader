@@ -24,9 +24,14 @@
  * THE SOFTWARE.
  */
 
+/**
+ * @package Core\Includes
+ */
+
 require_once ( CORE_FUNCTIONS_PATH . 'function.php' );
 require_once ( CORE_FUNCTIONS_PATH . 'storeCache.php' );
 require_once ( CORE_FUNCTIONS_PATH . 'routing.php' );
 require_once ( CORE_FUNCTIONS_PATH . 'instance.php' );
 require_once ( CORE_FUNCTIONS_PATH . 'url.php' );
 require_once ( CORE_FUNCTIONS_PATH . 'menu.php' );
+require_once ( CORE_FUNCTIONS_PATH . 'option.php' );

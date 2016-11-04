@@ -31,53 +31,112 @@
  */
 class MangaModel extends Model {
     
-    public function __construct( $db ) {
-        $this->db = $db;
+    
+    const ORDER_ASC = 0;
+    
+    const ORDER_DESC = 1;
+    
+    private $filds = [
+        'name', 'slug', 'authors', 'artists', 'other_name', 'genres'
+    ];
+    
+    public function getAll( $return = null ) {
+        $query = 'SELECT * FROM `' . $this->db->prefix . 'manga`';
+        switch ( $return ) {
+            case 'pagination':
+                $results = new Paginator( $this->db , $query);
+                $results->setDataParse('MangaEntity');
+                return $results;
+            default:
+                if ( $stmt = $this->db->query( $query ) ) {
+                    return [
+                        'length' => $stmt->rowCount(),
+                        'response' => $stmt->fetchAll(PDO::FETCH_CLASS, 'MangaEntity')
+                    ];
+                }
+                
+        }
+        return [];
     }
     
-    public function selectById( $id ) {
-        $query = $this->db->prepare("SELECT * FROM `{$this->db->prefix}manga` WHERE `id_manga` = ?");
-        $query->bindParam(1, $id);
-        if ( $query->execute() )
-            return $query->fetchObject('MangaEntity');
-        return new MangaEntity();
+    public function find ( $value, $columns = [ 'name', 'slug', 'authors', 'artists', 'other_name', 'genres' ] ) {
+        $columns = (array) $columns;
+        foreach ( $columns as $key => $arvar ) {
+            switch ( $arvar ) {
+                case 'artist':
+                    $columns[$key] = 'artists';
+                    break;
+                case 'author':
+                    $columns[$key] = 'authors';
+                    break;
+                case 'genre':
+                    $columns[$key] = 'genres';
+                    break;
+                default :
+                    if ( in_array($value, $this->filds) ) {
+                        continue;
+                    }
+                    unset( $columns[$key] );
+            }
+        }
+        $sql = 'SELECT * FROM `' . $this->db->prefix . 'manga` WHERE UPPER(`' . implode( "`) LIKE UPPER('%{$value}%') OR (`", (array) $columns ) . "`) LIKE UPPER('%{$value}%')";
+        $pagination = new Paginator( $this->db, $sql );
+        return $pagination->setDataParse('MangaEntity');
     }
     
-    public function selectBySlug ( $slugname ) {
-        $query = $this->db->prepare("SELECT * FROM `{$this->db->prefix}manga` WHERE `slug` = ?");
-        $query->bindParam(1, $slugname);
-        if ( $query->execute() )
-            return $query->fetchObject('MangaEntity');
-        return new MangaEntity();
+    public function getColum ( $colum, $order = 'ASC' ) {
+        $sql = 'SELECT * FROM `' . $this->db->prefix . 'manga`';
+        $sql .= 'ORDER BY `' . $colum . '` ';
+        switch ( $order ) {
+            case 'desc':
+            case 'DESC':
+            case 1:
+                $sql .= 'DESC ';
+                break;
+            default:
+                $sql .= 'ASC';
+        }
+        $pagination = new Paginator( $this->db, $sql );
+        return $pagination->setDataParse('MangaEntity');
     }
     
     /**
      * 
-     * @param int $ini
-     * @param int $fim
+     * @param string|int $arg
      * @return array
+     * @throws ModelException
      */
-    public function list_limit( $ini = 0, $fim = 10 ) {
-        $query = $this->db->query("SELECT * FROM `{$this->db->prefix}manga` LIMIT {$ini},{$fim}");
-        
-        if ( ! $query ) {
-            return array();
+    public function select ( $arg ) {
+        if ( ! is_string ( $arg ) && ! is_integer( $arg ) ) {
+            throw new ModelException( __('O parametro deve ser uma string ou um numero inteiro.'), 0);
         }
         
-        return $query->fetchAll(PDO::FETCH_CLASS,'MangaEntity');
+        $sql = 'SELECT * FROM `' . $this->db->prefix . 'manga`';
+        if ( is_numeric( $arg ) ) {
+            $sql .= 'WHERE `id_manga` = ?';
+        } else {
+            $sql .= 'WHERE `slug` = ?';
+        }
+        if ( $stmt = $this->db->query($sql,[ $arg ]) ) {
+            return $stmt->fetchObject('MangaEntity');
+        }
+        return null;
     }
     
     /**
      * 
-     * @return array
+     * @param MangaEntity $manga
      */
-    public function list_manga() {
-        $query = $this->db->query("SELECT * FROM `{$this->db->prefix}manga`");
+    public function insert( MangaEntity $manga ) {
         
-        if ( ! $query ) {
-            return array();
-        }
-        
-        return $query->fetchAll(PDO::FETCH_CLASS,'MangaEntity');
     }
+    
+    public function update ( MangaEntity $manga ) {
+        
+    }
+    
+    public function delete ( $id ) {
+        
+    }
+    
 }

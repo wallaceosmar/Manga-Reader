@@ -28,6 +28,7 @@
  * Description of MenuItem
  *
  * @author Wallace Osmar <wallace.osmar@r7.com>
+ * @package Core\Class
  */
 class MenuElement {
     /**

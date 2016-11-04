@@ -24,11 +24,27 @@
  * THE SOFTWARE.
  */
 
-// Images
-routing_get('/image/compressed/[:slugname]/cover.jpg', 'Image@cover', 'image-cover');
-// The pages
-routing_get('/manga/[:slugname]/[:chapter]/[:pagenumber]?', 'manga@read', 'manga-reader');
-routing_get('/manga/[:slugname]', 'manga@index', 'manga-info');
-routing_get('/[:controller]/[:action]/[s:filter]?/[s*:name]?/[i:pagination]?', '*@*', 'manga-filter');
-routing_map('GET|POST','/[:action]', 'index@*');
-routing_get('/', 'index@index');
+/**
+ * 
+ * @global MVCdatabase $_mvcdatabase
+ * @param string $option
+ * @return mixed
+ */
+function get_option( $option ) {
+    global $_mvcdatabase;
+    
+    $option = trim( $option );
+    if ( empty( $option ) )
+        return false;
+    
+    if ( $caching = caching_get( 'options_' . $option ) ) {
+        return maybe_unserialize($caching);
+    } else {
+        $stmt = $_mvcdatabase->prepare( 'SELECT option_value FROM `' . $_mvcdatabase->prefix . 'option` WHERE option_name = ? LIMIT 1' );
+        $stmt->bindParam(1, $option);
+        if ( $stmt->execute() ) {
+            return maybe_unserialize( $stmt->fetch()['option_value'] );
+        }
+    }
+    return [];
+}

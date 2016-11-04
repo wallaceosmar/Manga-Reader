@@ -38,29 +38,30 @@ class indexController extends Controller {
         
         // This is cached
         if ( ! $this->template->isCached('index/index.tpl') ) {
-            
+            $max_insert = get_option('app_show_max_inset_manga');
+            $max_popular = get_option('app_show_max_popular_manga');
+            $max_update = get_option('app_show_max_update_manga');
             //
             if ( !( $insertManga = caching_get('list-insert-manga') ) ) {
-                $insertManga = $this->model->Manga->list_limit(0,40);
-                caching_set( 'list-insert-manga', $insertManga, 500);
+                $insertManga = $this->model->Manga->getColum('id_manga', MangaModel::ORDER_DESC)->getData( $max_insert,1);
+                caching_set( 'list-insert-manga', $insertManga->data, 500);
             }
             
-            if ( !( $popularManga = caching_get('list-insert-manga') ) ) {
-                $popularManga = $this->model->Manga->list_limit(0,10);
-                caching_set( 'list-insert-manga', $popularManga, 500);
+            if ( !( $popularManga = caching_get('list-popular-manga') ) ) {
+                $popularManga = $this->model->Manga->getColum('views', MangaModel::ORDER_DESC)->getData( $max_popular,1);
+                caching_set( 'list-popular-manga', $popularManga->data, 500);
             }
             
-            if ( !( $updateManga = caching_get('list-insert-manga') ) ) {
-                $updateManga = $this->model->Manga->list_limit(0,40);
-                caching_set( 'list-insert-manga', $updateManga, 500);
+            if ( !( $updateManga = caching_get('list-update-manga') ) ) {
+                $updateManga = $this->model->Manga->getColum('last_update', MangaModel::ORDER_DESC)->getData( $max_update,1);
+                caching_set( 'list-update-manga', $updateManga->data, 500);
             }
             
-            $this->template->assign('insertManga', $insertManga);
-            $this->template->assign('popularManga', $popularManga);
-            $this->template->assign('updateManga', $updateManga);
-            $this->template->assign('maxInsertManga', 40 );
-            $this->template->assign('maxUpdateManga', 100 );
-            
+            $this->template->assign('insertManga', $insertManga->data);
+            $this->template->assign('popularManga', $popularManga->data);
+            $this->template->assign('updateManga', $updateManga->data);
+            $this->template->assign('maxInsertManga', $max_insert );
+            $this->template->assign('maxUpdateManga', $max_update );
         }
         
         $this->template->display('index/index.tpl');
