@@ -1,5 +1,11 @@
 <IfModule mod_rewrite.c>
+
+    <IfModule mod_negotiation.c>
+        Options -MultiViews
+    </IfModule>
+    
     RewriteEngine on
-    RewriteRule ^$ public/ [L]
-    RewriteRule (.*) public/$1 [L]
+
+    # Redirect All Requests To The Subfolder
+    RewriteRule ^(.*)$ public/$1
  </IfModule>
